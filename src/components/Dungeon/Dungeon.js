@@ -27,7 +27,6 @@ export default function Dungeon() {
             type: "path",
             sx: 153,
             sy: 267,
-            // sy: 261,
         },
         2: {
             type: "Treasure Room",
@@ -42,7 +41,7 @@ export default function Dungeon() {
         4: {
             type: "Key Room",
             sx: 170,
-            sy: 261,
+            sy: 267,
         },
         5: {
             type: "Lock Room",
