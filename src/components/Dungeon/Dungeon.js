@@ -3,25 +3,6 @@ import React, { useEffect } from 'react'
 import sprite from './dawnblocker_ortho.png'
 
 export default function Dungeon() {
-    let map2 = {
-        cols: 8,
-        rows: 8,
-        tileWidth: 15,
-        tileHeight: 23,
-        tiles: [
-            2, 3, 3, 3, 1, 1, 3, 1,
-            1, 1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1, 2, 1, 1,
-            1, 1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, 2, 1, 1, 1, 1,
-            1, 1, 1, 1, 2, 1, 1, 1,
-            1, 1, 1, 1, 2, 1, 1, 1,
-            1, 1, 1, 0, 0, 1, 1, 1
-        ],
-        getTile: function (col, row) {
-            return this.tiles[row * map.cols + col]
-        }
-    }
     const tiles = {
         1: {
             type: "path",
@@ -101,7 +82,7 @@ export default function Dungeon() {
     })
     return (
         <div class="dungeon-container">
-            <canvas id="dungeon-canvas" width="500" height="500"></canvas>
+            <canvas id="dungeon-canvas" width="300" height="300"></canvas>
             <img id="sprite-img" src={sprite} alt="dungeon sprite" style={{ display: "none" }} />
         </div>
     )
