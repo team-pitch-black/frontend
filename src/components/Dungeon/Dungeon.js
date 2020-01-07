@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react'
+
 import sprite from './dawnblocker_ortho.png'
-// import sprite from './dungeon_tiles.png'
 
 export default function Dungeon() {
-    let map = {
+    let map2 = {
         cols: 8,
         rows: 8,
-        tsize: 64,
+        tileWidth: 15,
+        tileHeight: 23,
         tiles: [
-            1, 3, 3, 3, 1, 1, 3, 1,
+            2, 3, 3, 3, 1, 1, 3, 1,
             1, 1, 1, 1, 1, 1, 1, 1,
             1, 1, 1, 1, 1, 2, 1, 1,
             1, 1, 1, 1, 1, 1, 1, 1,
@@ -21,12 +22,62 @@ export default function Dungeon() {
             return this.tiles[row * map.cols + col]
         }
     }
+    const tiles = {
+        1: {
+            type: "path",
+            sx: 153,
+            sy: 267,
+            // sy: 261,
+        },
+        2: {
+            type: "Treasure Room",
+            sx: 153,
+            sy: 236,
+        },
+        3: {
+            type: "Monster Room",
+            sx: 170,
+            sy: 236,
+        },
+        4: {
+            type: "Key Room",
+            sx: 170,
+            sy: 261,
+        },
+        5: {
+            type: "Lock Room",
+            sx: 136,
+            sy: 261,
+        }
+    }
+    let map = {
+        cols: 10,
+        rows: 10,
+        tileWidth: 30,
+        tileHeight: 30,
+        tiles: [
+            1, 1, 0, 0, 0, 0, 1, 1, 1, 0,
+            0, 1, 1, 1, 1, 1, 1, 0, 1, 0,
+            1, 1, 1, 1, 1, 2, 1, 0, 1, 4,
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 2, 1, 1, 1, 3, 1, 1,
+            1, 1, 1, 1, 2, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 2, 1, 1, 1, 1, 1,
+            1, 0, 1, 0, 0, 0, 1, 1, 1, 1,
+            1, 0, 1, 0, 0, 0, 5, 0, 1, 1,
+            1, 1, 1, 1, 1, 0, 0, 0, 1, 1
+        ],
+        getTile: function (col, row) {
+            return this.tiles[row * map.cols + col]
+        }
+    }
 
     useEffect(() => {
         const canvas = document.getElementById('dungeon-canvas')
         const ctx = canvas.getContext('2d')
         const img = document.getElementById('sprite-img')
 
+        ctx.fillStyle = '#000000'
         img.onload = () => {
             // Loop over map
             for (let c = 0; c < map.cols; c++) {
@@ -35,27 +86,24 @@ export default function Dungeon() {
                     if (tile !== 0) { // 0 => empty tile
                         ctx.drawImage(
                             img, // image
-                            (tile - 1) * map.tsize, // source x
-                            0, // source y
-                            map.tsize, // source width
-                            map.tsize, // source height
-                            c * map.tsize, // target x
-                            r * map.tsize, // target y
-                            map.tsize, // target width
-                            map.tsize // target height
+                            tiles[tile].sx, // source x
+                            tiles[tile].sy, // source y
+                            15, // source width
+                            15, // source height
+                            c * map.tileWidth, // target x
+                            r * map.tileHeight, // target y
+                            map.tileWidth, // target width
+                            map.tileHeight // target height
                         );
                     }
                 }
             }
         }
-
-        // ctx.drawImage(img, 0, 0)
-
     })
     return (
-        <>
-            <canvas id="dungeon-canvas" width="1000" height="1000"></canvas>
+        <div class="dungeon-container">
+            <canvas id="dungeon-canvas" width="500" height="500"></canvas>
             <img id="sprite-img" src={sprite} alt="dungeon sprite" style={{ display: "none" }} />
-        </>
+        </div>
     )
 }
