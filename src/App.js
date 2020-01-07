@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 
@@ -7,10 +7,13 @@ import './App.css';
 import Menu from './components/Navigation'
 import Dungeon from './components/Dungeon/Dungeon'
 
+
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
   return (
     <div className="App">
-      <Menu />
+      <Menu isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Container style={{minHeight: "100%"}} id="main">
         <Grid container justify="center" spacing={8}>
           <Grid item>
