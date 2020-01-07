@@ -4,10 +4,19 @@ import Grid from '@material-ui/core/Grid'
 
 // import logo from './logo.svg';
 import './App.css';
-import Menu from './components/Navigation'
+import Menu from './components/navigation'
 import Dungeon from './components/Dungeon/Dungeon'
+import ArrowUpwardOutlinedIcon from '@material-ui/icons/ArrowUpwardOutlined';
+import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
+import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
+import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
 
 function App() {
+
+  const moveHandler = (direction) => {
+    
+  }
+
   return (
     <div className="App">
       <Menu />
@@ -22,6 +31,14 @@ function App() {
             <Grid container direction="column" alignItems="center" spacing={3}>
               <Grid item>
                 <h3>Controls</h3>
+                <Grid item>
+                  <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{color: 'white'}} />
+                </Grid>
+                <Grid item>
+                  <ArrowBackOutlinedIcon onClick={() => moveHandler('left')} style={{color: 'white'}} />
+                  <ArrowDownwardOutlinedIcon onClick={() => moveHandler('down')} style={{color: 'white'}} />
+                  <ArrowForwardOutlinedIcon onClick={() => moveHandler('right')} style={{color: 'white'}} />
+                </Grid>
               </Grid>
               <Grid item>
                 <h3>Players in Room</h3>
