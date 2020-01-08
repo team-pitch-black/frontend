@@ -47,27 +47,7 @@ export default function Dungeon(props) {
             sy: 261,
         }
     }
-    let map = {
-        cols: 10,
-        rows: 10,
-        tileWidth: 30,
-        tileHeight: 30,
-        tiles: [
-            1, 1, 0, 0, 0, 0, 1, 1, 1, 0,
-            0, 1, 1, 1, 1, 1, 1, 0, 1, 0,
-            1, 1, 1, 1, 1, 2, 1, 0, 1, 4,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, 2, 1, 1, 1, 3, 1, 1,
-            1, 1, 1, 1, 2, 1, 1, 1, 1, 1,
-            1, 1, 1, 1, 2, 1, 1, 1, 1, 1,
-            1, 0, 1, 0, 0, 0, 1, 1, 1, 1,
-            1, 0, 1, 0, 0, 0, 5, 0, 1, 1,
-            1, 1, 1, 1, 1, 0, 0, 0, 1, 1
-        ],
-        getTile: function (col, row) {
-            return this.tiles[row * map.cols + col]
-        }
-    }
+
 
     useEffect(() => {
         // const canvas = document.getElementById('dungeon-canvas')
@@ -82,9 +62,9 @@ export default function Dungeon(props) {
         ctx.fillStyle = '#000000'
         spriteRef.current.onload = () => {
             // Loop over map
-            for (let c = 0; c < map.cols; c++) {
-                for (let r = 0; r < map.rows; r++) {
-                    let tile = map.getTile(c, r);
+            for (let c = 0; c < props.map.cols; c++) {
+                for (let r = 0; r < props.map.rows; r++) {
+                    let tile = props.map.getTile(c, r);
                     if (tile !== 0) { // 0 => empty tile
                         ctx.drawImage(
                             spriteRef.current, // image
@@ -92,10 +72,10 @@ export default function Dungeon(props) {
                             tiles[tile].sy, // source y
                             15, // source width
                             15, // source height
-                            c * map.tileWidth, // target x
-                            r * map.tileHeight, // target y
-                            map.tileWidth, // target width
-                            map.tileHeight // target height
+                            c * props.map.tileWidth, // target x
+                            r * props.map.tileHeight, // target y
+                            props.map.tileWidth, // target width
+                            props.map.tileHeight // target height
                         );
                     }
                 }
@@ -103,15 +83,15 @@ export default function Dungeon(props) {
             }
             
         }
-        console.log('inside useEffect', props.playerLocation)
+        // console.log('inside useEffect', props.playerLocation)
         // ctx.drawImage(playerRef.current, 205, 181, 20, 20, props.playerLocation.x, props.playerLocation.y, 30, 30)
     }, [props.playerLocation])
     
     return (
         <div class="dungeon-container">
-            <div class='testing'>
-            <canvas id="dungeon-canvas" ref={canvasRef} width="300" height="300"></canvas>
-            <img src={player1} style={{position: 'relative', left: props.playerLocation.x + 8, top: props.playerLocation.y -5 }} />
+            <div class='testing' style={{position: 'relative'}}>
+            <canvas id="dungeon-canvas" ref={canvasRef} width="750" height="750"></canvas>
+            <img src={player1} style={{position: 'absolute', left: props.playerLocation.x * 30 +7, top: props.playerLocation.y * 30 +5 }} />
             </div>
             <img id="sprite-img" src={sprite} alt="dungeon sprite" ref={spriteRef} style={{ display: "none" }} />
             {/* <img id='player-img' src={playersSprite} ref={playerRef} alt='player' style={{ display: "none" }} /> */}
