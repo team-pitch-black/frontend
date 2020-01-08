@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 
@@ -13,8 +13,22 @@ import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
 
 function App() {
 
+  const [playerLocation, setPlayerLocation] = useState({
+    x: 0,
+    y: 0
+})
+
   const moveHandler = (direction) => {
-    
+    if(direction === 'up') {
+      setPlayerLocation({...playerLocation, y: playerLocation.y - 30})
+    } else if (direction === 'down') {
+      setPlayerLocation({...playerLocation, y: playerLocation.y + 30})
+    } else if (direction === 'left') {
+      setPlayerLocation({...playerLocation, x: playerLocation.x - 30})
+    } else if (direction === 'right') {
+      setPlayerLocation({...playerLocation, x: playerLocation.x + 30})
+    }
+    // console.log(playerLocation)
   }
 
   return (
@@ -23,7 +37,7 @@ function App() {
       <Container style={{minHeight: "100%"}} id="main">
         <Grid container justify="center" spacing={8}>
           <Grid item>
-            <Dungeon />
+            <Dungeon playerLocation={playerLocation} />
             <h2>Current Room:</h2>
             <p>Pathway</p>
           </Grid>
