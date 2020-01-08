@@ -5,9 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
@@ -28,16 +26,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function MenuAppBar({isLoggedIn, setIsLoggedIn}) {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
 
-    const handleMenu = event => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    const handleLogout = e => {
+        localStorage.removeItem('token')
+        setIsLoggedIn(false)
+    }
 
     return (
         <div className={classes.root}>
@@ -51,38 +44,14 @@ export default function MenuAppBar({isLoggedIn, setIsLoggedIn}) {
                     </Typography>
                     {isLoggedIn ? (
                         <div>
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                color="inherit"
-                            >
-                                <AccountCircle />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>My account</MenuItem>
-                            </Menu>
+                            <ButtonGroup color="secondary" variant="contained">
+                                <Button color="secondary" onClick={handleLogout}>Log Out</Button>
+                            </ButtonGroup>
                         </div>
                     ) : (
-                        <ButtonGroup color="secondary">
+                        <ButtonGroup color="secondary" variant="contained">
                             <Button component={Link} to="/login">Log In</Button>
-                            <Button component={Link} to="/sign-up">Sign Up</Button>
+                            <Button component={Link} to="/signup">Sign Up</Button>
                         </ButtonGroup>
                     )}
                 </Toolbar>

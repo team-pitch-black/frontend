@@ -5,7 +5,7 @@ import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-class UserLogin extends React.Component {
+class SignUp extends React.Component {
     state = {
         credentials: {
             username: '',
@@ -27,10 +27,10 @@ class UserLogin extends React.Component {
     login = e => {
         e.preventDefault()
         axios
-            .post("http://localhost:8000/api/login/", this.state.credentials)
+            .post("http://localhost:5000/api/login/", this.state.credentials)
             .then(res => {
-                localStorage.setItem("token", res.data.key)
                 this.props.setIsLoggedIn(true)
+                localStorage.setItem("token", res.data.payload)
                 this.props.history.push('/')
             })
             .catch(err => console.log(err.response))
@@ -38,15 +38,16 @@ class UserLogin extends React.Component {
 
     render() {
         return (
-            <div className="login-form">
+            <div className="signup-form">
                 <div style={{ backgroundColor: "white", maxWidth: "350px", margin: "auto", padding: "30px", borderRadius: "4px" }}>
-                    <h2>User Login</h2>
+                    <h2>Sign Up</h2>
                     <form>
                         <FormControl>
                             <TextField
                                 name="username"
                                 label="Username"
                                 variant="outlined"
+                                required
                                 value={this.state.credentials.username}
                                 onChange={this.handleChange}
                                 style={{ marginBottom: "10px" }}
@@ -56,11 +57,12 @@ class UserLogin extends React.Component {
                                 label="password"
                                 type="password"
                                 variant="outlined"
+                                required
                                 value={this.state.credentials.password}
                                 onChange={this.handleChange}
                                 style={{ marginBottom: "10px" }}
                             />
-                            <Button variant="contained" onClick={this.login} style={{ marginBottom: "20px" }}>Log In</Button>
+                            <Button variant="contained" onClick={this.login} style={{ marginBottom: "20px" }}>Sign Up</Button>
                         </FormControl>
                     </form>
                 </div>
@@ -69,4 +71,4 @@ class UserLogin extends React.Component {
     }
 }
 
-export default UserLogin
+export default SignUp
