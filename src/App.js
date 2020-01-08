@@ -57,20 +57,34 @@ const [map, setmap] = useState({
   }
 })
 
-  ArrowKeysReact.config({
-    left: () => {
-      console.log('left key detected.');
-    },
-    right: () => {
-      console.log('right key detected.');
-    },
-    up: () => {
-      console.log('up key detected.');
-    },
-    down: () => {
-      console.log('down key detected.');
+document.onkeydown = checkKey;
+
+function checkKey(e) {
+
+    e = e || window.event;
+
+    if (e.keyCode == '38') {
+        // up arrow
+        console.log('up')
+        moveHandler('up')
     }
-  });
+    else if (e.keyCode == '40') {
+        // down arrow
+        console.log('down')
+        moveHandler('down')
+    }
+    else if (e.keyCode == '37') {
+       // left arrow
+       console.log('left')
+       moveHandler('left')
+    }
+    else if (e.keyCode == '39') {
+       // right arrow
+       console.log('right')
+       moveHandler('right')
+    }
+
+}
 
 
   const moveHandler = (direction) => {
