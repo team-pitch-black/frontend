@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.ui-item {
+  background-color: #1d2025;
+  padding: 15px;
+  border-radius: 5px;
+}
+.ui-item h2,
+.ui-item h3,
+.ui-item p {
+  color: white;
+}
