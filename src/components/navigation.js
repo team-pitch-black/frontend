@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -21,6 +22,7 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         flexGrow: 1,
+        textAlign: "left"
     },
 }));
 
@@ -44,8 +46,8 @@ export default function MenuAppBar({isLoggedIn, setIsLoggedIn}) {
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        Pitch Black
+                    <Typography variant="h6" className={classes.title} >
+                        <Link to="/" style={{textDecoration: "none", color: "white"}}>Pitch Black</Link>
                     </Typography>
                     {isLoggedIn ? (
                         <div>
@@ -79,8 +81,8 @@ export default function MenuAppBar({isLoggedIn, setIsLoggedIn}) {
                         </div>
                     ) : (
                         <ButtonGroup color="secondary">
-                            <Button>Log In</Button>
-                            <Button>Sign Up</Button>
+                            <Button component={Link} to="/login">Log In</Button>
+                            <Button component={Link} to="/sign-up">Sign Up</Button>
                         </ButtonGroup>
                     )}
                 </Toolbar>
