@@ -46,7 +46,7 @@ class UserLogin extends React.Component {
     login = e => {
         e.preventDefault()
         axios
-            .post("http://localhost:8000/api/login/", this.state.credentials)
+            .post("https://pitch-black-mud.herokuapp.com/api/login/", this.state.credentials)
             .then(res => {
                 localStorage.setItem("token", res.data.key)
                 this.props.setIsLoggedIn(true)
