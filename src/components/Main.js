@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
@@ -13,7 +13,7 @@ import { Button } from '@material-ui/core'
 
 
 export default function Main({ map, setMap, playerLocation, setPlayerLocation, isLoggedIn }) {
-
+    const [isLoaded, setIsLoaded ] = useState(false)
     useEffect(() => {
         axios
             .get('https://pitch-black-mud.herokuapp.com/api/adv/map')
@@ -33,6 +33,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                         tiles: newTiles
                     }
                 })
+                setIsLoaded(true)
             })
             .catch(err => console.log(err))
     }, [])
@@ -108,7 +109,11 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                 <Grid container justify="center" spacing={8}>
                     <Grid item>
                         <div className="ui-item">
-                            <Dungeon map={map} playerLocation={playerLocation} />
+                            {isLoaded ? (
+                                <Dungeon map={map} setIsLoaded={setIsLoaded} playerLocation={playerLocation} />
+                            ) : (
+                                <p>Loading...</p>
+                            )}
                             <h2>Current Room:</h2>
                             <p>Pathway</p>
                         </div>

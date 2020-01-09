@@ -60,6 +60,7 @@ export default function Dungeon(props) {
                 for (let r = 0; r < props.map.rows; r++) {
                     let tile = props.map.getTile(c, r);
                     if (tile !== 0) { // 0 => empty tile
+                        console.log('loop')
                         ctx.drawImage(
                             spriteRef.current, // image
                             room_types[tile].sx, // source x

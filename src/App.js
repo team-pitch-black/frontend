@@ -53,8 +53,8 @@ function App() {
   }
 
   const [playerLocation, setPlayerLocation] = useState({
-    x: 0,
-    y: 0
+    x: 12,
+    y: 12
   })
 
   const [map, setMap] = useState({
