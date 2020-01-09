@@ -88,7 +88,7 @@ class UserLogin extends React.Component {
                             />
                             <Button variant="contained" onClick={this.login} style={{ marginBottom: "20px" }} color="secondary" type="submit">Log In</Button>
                             <Snackbar open={this.state.open} autoHideDuration={6000} onClose={this.handleClose}>
-                                <Alert onClose={this.handleClose} severity="success">
+                                <Alert onClose={this.handleClose} severity="error">
                                     Username not found, try again or sign up here
                                 </Alert>
                             </Snackbar>
