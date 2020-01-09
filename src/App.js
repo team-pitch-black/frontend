@@ -5,7 +5,6 @@ import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import ArrowKeysReact from 'arrow-keys-react';
 import ArrowUpwardOutlinedIcon from '@material-ui/icons/ArrowUpwardOutlined';
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
@@ -65,7 +64,7 @@ function App() {
     y: 0
   })
 
-  const [map, setmap] = useState({
+  const [map, setMap] = useState({
     cols: 25,
     rows: 25,
     tileWidth: 30,
@@ -108,22 +107,22 @@ function App() {
 
     e = e || window.event;
 
-    if (e.keyCode == '38') {
+    if (e.keyCode === '38') {
       // up arrow
       console.log('up')
       moveHandler('up')
     }
-    else if (e.keyCode == '40') {
+    else if (e.keyCode === '40') {
       // down arrow
       console.log('down')
       moveHandler('down')
     }
-    else if (e.keyCode == '37') {
+    else if (e.keyCode === '37') {
       // left arrow
       console.log('left')
       moveHandler('left')
     }
-    else if (e.keyCode == '39') {
+    else if (e.keyCode === '39') {
       // right arrow
       console.log('right')
       moveHandler('right')
@@ -197,10 +196,10 @@ function App() {
                             <Grid item>
                               <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white' }} />
                             </Grid>
-                            <Grid item>
-                              <ArrowBackOutlinedIcon onClick={() => moveHandler('left')} style={{ color: 'white' }} />
-                              <ArrowDownwardOutlinedIcon onClick={() => moveHandler('down')} style={{ color: 'white' }} />
-                              <ArrowForwardOutlinedIcon onClick={() => moveHandler('right')} style={{ color: 'white' }} />
+                            <Grid item style={{fontSize: "50px"}}>
+                              <ArrowBackOutlinedIcon fontSize="inherit" onClick={() => moveHandler('left')} style={{ color: 'white' }} />
+                              <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
+                              <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
                             </Grid>
                           </div>
                         </Grid>

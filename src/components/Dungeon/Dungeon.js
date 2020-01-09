@@ -12,13 +12,13 @@ export default function Dungeon(props) {
     const canvasRef = useRef(null)
     const spriteRef = useRef(null)
 
-    const players = {
-        1: {
-            name: 'player1',
-            sx: 205,
-            sy: 181
-        }
-    }
+    // const players = {
+    //     1: {
+    //         name: 'player1',
+    //         sx: 205,
+    //         sy: 181
+    //     }
+    // }
 
     const tiles = {
         1: {
@@ -49,14 +49,7 @@ export default function Dungeon(props) {
     }
 
     useEffect(() => {
-        // const canvas = document.getElementById('dungeon-canvas')
         const ctx = canvasRef.current.getContext('2d')
-        // const img = document.getElementById('sprite-img')
-
-        // const player = document.getElementById('player-img')
-        // const playerCtx = canvas.getContext('2d')
-        // const playerCanvas = document.getElementById('dungeon-canvas')
-        // playerCtx.drawImage(player, 213,181, 15, 15, 0, 0, 30, 30)
 
         ctx.fillStyle = '#000000'
         spriteRef.current.onload = () => {
@@ -84,21 +77,21 @@ export default function Dungeon(props) {
         }
         // console.log('inside useEffect', props.playerLocation)
         // ctx.drawImage(playerRef.current, 205, 181, 20, 20, props.playerLocation.x, props.playerLocation.y, 30, 30)
-    }, [props.playerLocation])
+    })
     
     return (
         <div class="dungeon-container">
             <div class='testing' style={{position: 'relative'}}>
             <canvas id="dungeon-canvas" ref={canvasRef} width="750" height="750"></canvas>
-            <img src={player1} style={{position: 'absolute', left: props.playerLocation.x * 30 +7, top: props.playerLocation.y * 30 +5 }} />
+            <img src={player1} style={{position: 'absolute', left: props.playerLocation.x * 30 +7, top: props.playerLocation.y * 30 +5 }} alt="player" />
             </div>
             <img id="sprite-img" src={sprite} alt="dungeon sprite" ref={spriteRef} style={{ display: "none" }} />
             {/* <img id='player-img' src={playersSprite} ref={playerRef} alt='player' style={{ display: "none" }} /> */}
             
-            <img src={player2} />
-            <img src={player3} />
-            <img src={player4} />
-            <img src={player5} />
+            <img src={player2} alt="player 2"/>
+            <img src={player3} alt="player 3"/>
+            <img src={player4} alt="player 4"/>
+            <img src={player5} alt="player 5"/>
         </div>
     )
 }
