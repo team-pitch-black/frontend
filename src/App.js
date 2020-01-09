@@ -173,13 +173,13 @@ function App() {
                         <Grid item>
                           <div className="ui-item">
                             <h3>Controls</h3>
-                            <Grid item>
-                              <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white' }} />
+                            <Grid item style={{fontSize: "50px"}}>
+                              <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white'}} fontSize='inherit' />
                             </Grid>
-                            <Grid item>
-                              <ArrowBackOutlinedIcon onClick={() => moveHandler('left')} style={{ color: 'white' }} />
-                              <ArrowDownwardOutlinedIcon onClick={() => moveHandler('down')} style={{ color: 'white' }} />
-                              <ArrowForwardOutlinedIcon onClick={() => moveHandler('right')} style={{ color: 'white' }} />
+                            <Grid item style={{fontSize: "50px"}}>
+                              <ArrowBackOutlinedIcon onClick={() => moveHandler('left')} style={{ color: 'white', padding: 5 }} fontSize='inherit' />
+                              <ArrowDownwardOutlinedIcon onClick={() => moveHandler('down')} style={{ color: 'white', padding: 5 }} fontSize='inherit' />
+                              <ArrowForwardOutlinedIcon onClick={() => moveHandler('right')} style={{ color: 'white', padding: 5 }} fontSize='inherit' />
                             </Grid>
                           </div>
                         </Grid>
@@ -191,6 +191,13 @@ function App() {
                         <Grid item>
                           <div className="ui-item">
                             <h3>Chat</h3>
+                            <div className='chat-box' style={{display: 'flex', padding: 10, borderRadius: 5, height: 300, width: 300, backgroundColor: 'grey'}}>
+                              {
+                                //loop through messages
+                              }
+                            </div>
+                              <input placeholder='type here' style={{width: 314, borderRadius: 5}} />
+                            
                           </div>
                         </Grid>
                       </Grid>
