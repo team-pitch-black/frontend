@@ -101,28 +101,30 @@ function App() {
     }
   })
 
-  document.onkeydown = checkKey;
+  document.onkeydown = (e) => {
+    e = e || window.event;
+    checkKey(e)
+  };
 
   function checkKey(e) {
-
     e = e || window.event;
 
-    if (e.keyCode === '38') {
+    if (e.key === 'ArrowUp') {
       // up arrow
       console.log('up')
       moveHandler('up')
     }
-    else if (e.keyCode === '40') {
+    else if (e.key === 'ArrowDown') {
       // down arrow
       console.log('down')
       moveHandler('down')
     }
-    else if (e.keyCode === '37') {
+    else if (e.key === 'ArrowLeft') {
       // left arrow
       console.log('left')
       moveHandler('left')
     }
-    else if (e.keyCode === '39') {
+    else if (e.key === 'ArrowRight') {
       // right arrow
       console.log('right')
       moveHandler('right')
@@ -137,8 +139,8 @@ function App() {
         // console.log(map.getTile(playerLocation.x, playerLocation.y -1))
         // console.log(playerLocation.x, playerLocation.y -1)
       } else {
-        console.log(map.getTile(playerLocation.x, playerLocation.y - 1))
-        console.log(playerLocation.x, playerLocation.y - 1)
+        // console.log(map.getTile(playerLocation.x, playerLocation.y - 1))
+        // console.log(playerLocation.x, playerLocation.y - 1)
         setPlayerLocation({ ...playerLocation, y: playerLocation.y - 1 })
       }
     } else if (direction === 'down') {
@@ -193,13 +195,13 @@ function App() {
                         <Grid item>
                           <div className="ui-item">
                             <h3>Controls</h3>
-                            <Grid item>
-                              <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white' }} />
+                            <Grid item style={{fontSize: "50px"}}>
+                              <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white'}} fontSize='inherit' />
                             </Grid>
                             <Grid item style={{fontSize: "50px"}}>
-                              <ArrowBackOutlinedIcon fontSize="inherit" onClick={() => moveHandler('left')} style={{ color: 'white' }} />
-                              <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
-                              <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
+                              <ArrowBackOutlinedIcon fontSize="inherit" onClick={() => moveHandler('left')} style={{ color: 'white' }} fontSize='inherit' />
+                              <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} fontSize='inherit' />
+                              <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} fontSize='inherit' />
                             </Grid>
                           </div>
                         </Grid>
@@ -211,6 +213,13 @@ function App() {
                         <Grid item>
                           <div className="ui-item">
                             <h3>Chat</h3>
+                            <div className='chat-box' style={{display: 'flex', padding: 10, borderRadius: 5, height: 300, width: 300, backgroundColor: 'grey'}}>
+                              {
+                                //loop through messages
+                              }
+                            </div>
+                              <input placeholder='type here' style={{width: 314, borderRadius: 5}} />
+                            
                           </div>
                         </Grid>
                       </Grid>
