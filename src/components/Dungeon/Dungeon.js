@@ -1,11 +1,41 @@
 import React, { useEffect, useRef } from 'react'
 
-import sprite from './dawnblocker_ortho.png'
+// import sprite from './dawnblocker_ortho.png'
 import player1 from './player1.png'
 import player2 from './player2.png'
 import player3 from './player3.png'
 import player4 from './player4.png'
 import player5 from './player5.png'
+
+const sprite = require('./dawnblocker_ortho.png')
+
+const room_types = {
+    1: {
+        type: "path",
+        sx: 153,
+        sy: 267,
+    },
+    2: {
+        type: "Treasure Room",
+        sx: 153,
+        sy: 236,
+    },
+    3: {
+        type: "Monster Room",
+        sx: 170,
+        sy: 236,
+    },
+    4: {
+        type: "Key Room",
+        sx: 170,
+        sy: 267,
+    },
+    5: {
+        type: "Lock Room",
+        sx: 136,
+        sy: 261,
+    }
+}
 
 export default function Dungeon(props) {
     // const playerRef = useRef(null)
@@ -20,37 +50,9 @@ export default function Dungeon(props) {
     //     }
     // }
 
-    const tiles = {
-        1: {
-            type: "path",
-            sx: 153,
-            sy: 267,
-        },
-        2: {
-            type: "Treasure Room",
-            sx: 153,
-            sy: 236,
-        },
-        3: {
-            type: "Monster Room",
-            sx: 170,
-            sy: 236,
-        },
-        4: {
-            type: "Key Room",
-            sx: 170,
-            sy: 267,
-        },
-        5: {
-            type: "Lock Room",
-            sx: 136,
-            sy: 261,
-        }
-    }
-
     useEffect(() => {
         const ctx = canvasRef.current.getContext('2d')
-
+        console.log('Rendering...')
         ctx.fillStyle = '#000000'
         spriteRef.current.onload = () => {
             // Loop over map
@@ -60,8 +62,8 @@ export default function Dungeon(props) {
                     if (tile !== 0) { // 0 => empty tile
                         ctx.drawImage(
                             spriteRef.current, // image
-                            tiles[tile].sx, // source x
-                            tiles[tile].sy, // source y
+                            room_types[tile].sx, // source x
+                            room_types[tile].sy, // source y
                             15, // source width
                             15, // source height
                             c * props.map.tileWidth, // target x
@@ -78,7 +80,7 @@ export default function Dungeon(props) {
         console.log(props.map)
         // console.log('inside useEffect', props.playerLocation)
         // ctx.drawImage(playerRef.current, 205, 181, 20, 20, props.playerLocation.x, props.playerLocation.y, 30, 30)
-    }, [props.map.tiles])
+    }, [props.map])
     
     return (
         <div className="dungeon-container">
