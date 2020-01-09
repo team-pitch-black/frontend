@@ -155,7 +155,7 @@ function App() {
         <Router>
           <Menu isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
           <Route path="/login" render={(props) => <UserLogin {...props} setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/signup" component={SignUp} />
+          <Route path="/signup" render={(props) => <SignUp {...props} setIsLoggedIn={setIsLoggedIn} />} />
           <Route exact path="/" render={() => {
             if (isLoggedIn) {
               return (
