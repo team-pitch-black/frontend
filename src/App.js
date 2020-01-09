@@ -11,6 +11,12 @@ import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined'
 import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
 import Snackbar from '@material-ui/core/Snackbar'
 import MuiAlert from '@material-ui/lab/Alert'
+import {
+  ChatkitProvider,
+  TokenProvider,
+  withChatkit
+} from "@pusher/chatkit-client-react"
+import Chat from './components/ChatKit/Chat'
 
 import './App.css'
 import bg from './8-bit-cave-background-2.jpg'
@@ -18,6 +24,7 @@ import Menu from './components/navigation'
 import Dungeon from './components/Dungeon/Dungeon'
 import UserLogin from './components/Login'
 import SignUp from './components/SignUp'
+// import WelcomeMessage from './components/ChatKit/WelcomeMessage'
 
 const theme = createMuiTheme({
   palette: {
@@ -41,6 +48,25 @@ const theme = createMuiTheme({
     }
   },
 })
+
+// const testTokenProvider = process.env.TEST_TOKEN_PROVIDER
+const WelcomeMessage = withChatkit(props => {
+  return (
+    <div>
+      {props.chatkit.isLoading
+        ? 'Connecting to Chatkit...'
+        : `Hello ${props.chatkit.currentUser.name}!`}
+    </div>
+  );
+});
+
+const tokenProvider = new TokenProvider({
+  url: "https://us1.pusherplatform.io/services/chatkit_token_provider/v1/5069ed55-83a8-45f3-a512-f28f12478c05/token",
+});
+
+const instanceLocator = "v1:us1:5069ed55-83a8-45f3-a512-f28f12478c05"
+const userId = "bryanszendel"
+const otherUserId = "blaineblonquist"
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -197,9 +223,9 @@ function App() {
                               <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white'}} fontSize='inherit' />
                             </Grid>
                             <Grid item style={{fontSize: "50px"}}>
-                              <ArrowBackOutlinedIcon fontSize="inherit" onClick={() => moveHandler('left')} style={{ color: 'white' }} fontSize='inherit' />
-                              <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} fontSize='inherit' />
-                              <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} fontSize='inherit' />
+                              <ArrowBackOutlinedIcon fontSize="inherit" onClick={() => moveHandler('left')} style={{ color: 'white' }} />
+                              <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
+                              <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
                             </Grid>
                           </div>
                         </Grid>
@@ -210,13 +236,22 @@ function App() {
                         </Grid>
                         <Grid item>
                           <div className="ui-item">
-                            <h3>Chat</h3>
-                            <div className='chat-box' style={{display: 'flex', padding: 10, borderRadius: 5, height: 300, width: 300, backgroundColor: 'grey'}}>
+                            {/* <h3>Chat</h3> */}
+                            <div style={{display: 'flex', padding: 10, borderRadius: 5, height: 300, width: 300, backgroundColor: 'grey'}}> {/* className='chat-box'  */}
                               {
                                 //loop through messages
                               }
+                              {/* <WelcomeMessage /> */}
+                              <ChatkitProvider
+                                instanceLocator={instanceLocator}
+                                tokenProvider={tokenProvider}
+                                userId={userId}
+                              >
+                                {/* <WelcomeMessage /> */}
+                                <Chat otherUserId={otherUserId} />
+                              </ChatkitProvider>
                             </div>
-                              <input placeholder='type here' style={{width: 314, borderRadius: 5}} />
+                              {/* <input placeholder='type here' style={{width: 314, borderRadius: 5}} /> */}
                             
                           </div>
                         </Grid>

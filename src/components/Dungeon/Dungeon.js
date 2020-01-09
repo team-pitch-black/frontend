@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 
-import sprite from './dawnblocker_ortho.png'
+// import sprite from './dawnblocker_ortho.png'
 import player1 from './player1.png'
 import player2 from './player2.png'
 import player3 from './player3.png'
 import player4 from './player4.png'
 import player5 from './player5.png'
+const sprite = require('./dawnblocker_ortho.png')
 
 export default function Dungeon(props) {
     // const playerRef = useRef(null)
