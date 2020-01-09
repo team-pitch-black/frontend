@@ -10,9 +10,11 @@ import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
 
 import Dungeon from './Dungeon/Dungeon'
 import { Button } from '@material-ui/core'
+import { axiosWithAuth } from '../axiosWithAuth'
 
 
 export default function Main({ map, setMap, playerLocation, setPlayerLocation, isLoggedIn }) {
+    const [playersInRoom, setPlayersInRoom] = useState([])
     const [isLoaded, setIsLoaded ] = useState(false)
     useEffect(() => {
         axios
@@ -36,7 +38,36 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                 setIsLoaded(true)
             })
             .catch(err => console.log(err))
+            updatePlayerLocation()
+            
+            
+
     }, [])
+
+
+    const updatePlayerLocation = () => {
+        axiosWithAuth()
+        .get("https://pitch-black.herokuapp.com/api/adv/init/")
+        .then(res => {
+            console.log(res)
+            setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
+            setPlayersInRoom(res.data.players)
+            
+        })
+        .catch(err => {console.log(err)})
+    }
+
+    const movementHandler = (direction) => {
+        axiosWithAuth()
+            .post("https://pitch-black.herokuapp.com/api/adv/move/", {'direction': direction})
+            .then(res => {
+                console.log(res)
+                setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
+                setPlayersInRoom(res.data.players)
+            })
+            .catch(err => {console.log(err)})
+
+    }
 
     const moveHandler = (direction) => {
 
@@ -47,27 +78,31 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
             } else {
                 // console.log(map.getTile(playerLocation.x, playerLocation.y - 1))
                 // console.log(playerLocation.x, playerLocation.y - 1)
-                setPlayerLocation({ ...playerLocation, y: playerLocation.y - 1 })
+                // setPlayerLocation({ ...playerLocation, y: playerLocation.y - 1 })
+                movementHandler('d')
             }
         } else if (direction === 'down') {
             if (map.getTile(playerLocation.x, playerLocation.y + 1) === 0 || map.getTile(playerLocation.x, playerLocation.y + 1) === undefined) {
 
             } else {
-                setPlayerLocation({ ...playerLocation, y: playerLocation.y + 1 })
+                // setPlayerLocation({ ...playerLocation, y: playerLocation.y + 1 })
+                movementHandler('u')
             }
 
         } else if (direction === 'left') {
             if (map.getTile(playerLocation.x - 1, playerLocation.y) === 0 || playerLocation.x - 1 < 0) {
 
             } else {
-                setPlayerLocation({ ...playerLocation, x: playerLocation.x - 1 })
+                // setPlayerLocation({ ...playerLocation, x: playerLocation.x - 1 })
+                movementHandler('l')
             }
 
         } else if (direction === 'right') {
             if (map.getTile(playerLocation.x + 1, playerLocation.y) === 0 || playerLocation.x + 1 > 24) {
 
             } else {
-                setPlayerLocation({ ...playerLocation, x: playerLocation.x + 1 })
+                // setPlayerLocation({ ...playerLocation, x: playerLocation.x + 1 })
+                movementHandler('r')
             }
         }
     }
@@ -131,12 +166,17 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                         <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
                                         <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
                                     </Grid>
+                                    <button onClick={() => movementHandler()}>move test</button>
                                 </div>
                             </Grid>
                             <Grid item>
                                 <div className="ui-item">
                                     <h3>Players in Room</h3>
-                                    <Button onClick={console.log(map.tiles)}>Log</Button>
+                                    <ul>
+                                    {playersInRoom.map((player)=> {
+                                        return <li>{player}</li>
+                                    })}
+                                    </ul>
                                 </div>
                             </Grid>
                             <Grid item>
