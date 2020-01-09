@@ -49,6 +49,7 @@ class SignUp extends React.Component {
             .then(res => {
                 localStorage.setItem("token", res.data.key)
                 this.props.setIsLoggedIn(true)
+                this.props.setOpen(true)
                 this.props.history.push('/')
             })
             .catch(err => {
@@ -96,7 +97,7 @@ class SignUp extends React.Component {
                             />
                             <Button variant="contained" onClick={this.login} style={{ marginBottom: "20px" }} color="secondary" type="submit">Sign Up</Button>
                             <Snackbar open={this.state.open} autoHideDuration={6000} onClose={this.handleClose}>
-                                <Alert onClose={this.handleClose} severity="success">
+                                <Alert onClose={this.handleClose} severity="error">
                                     There was an error signing up, please try again
                                 </Alert>
                             </Snackbar>
