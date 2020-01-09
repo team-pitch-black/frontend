@@ -75,15 +75,16 @@ export default function Dungeon(props) {
             }
             
         }
+        console.log(props.map)
         // console.log('inside useEffect', props.playerLocation)
         // ctx.drawImage(playerRef.current, 205, 181, 20, 20, props.playerLocation.x, props.playerLocation.y, 30, 30)
-    })
+    }, [props.map.tiles])
     
     return (
-        <div class="dungeon-container">
-            <div class='testing' style={{position: 'relative'}}>
-            <canvas id="dungeon-canvas" ref={canvasRef} width="750" height="750"></canvas>
-            <img src={player1} style={{position: 'absolute', left: props.playerLocation.x * 30 +7, top: props.playerLocation.y * 30 +5 }} alt="player" />
+        <div className="dungeon-container">
+            <div className='testing' style={{position: 'relative'}}>
+                <canvas id="dungeon-canvas" ref={canvasRef} width="750" height="750"></canvas>
+                <img src={player1} style={{position: 'absolute', left: props.playerLocation.x * 30 +7, top: props.playerLocation.y * 30 +5 }} alt="player" />
             </div>
             <img id="sprite-img" src={sprite} alt="dungeon sprite" ref={spriteRef} style={{ display: "none" }} />
             {/* <img id='player-img' src={playersSprite} ref={playerRef} alt='player' style={{ display: "none" }} /> */}
