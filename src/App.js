@@ -101,28 +101,30 @@ function App() {
     }
   })
 
-  document.onkeydown = checkKey;
+  document.onkeydown = (e) => {
+    e = e || window.event;
+    checkKey(e)
+  };
 
   function checkKey(e) {
-
     e = e || window.event;
 
-    if (e.keyCode === '38') {
+    if (e.key === 'ArrowUp') {
       // up arrow
       console.log('up')
       moveHandler('up')
     }
-    else if (e.keyCode === '40') {
+    else if (e.key === 'ArrowDown') {
       // down arrow
       console.log('down')
       moveHandler('down')
     }
-    else if (e.keyCode === '37') {
+    else if (e.key === 'ArrowLeft') {
       // left arrow
       console.log('left')
       moveHandler('left')
     }
-    else if (e.keyCode === '39') {
+    else if (e.key === 'ArrowRight') {
       // right arrow
       console.log('right')
       moveHandler('right')
@@ -137,8 +139,8 @@ function App() {
         // console.log(map.getTile(playerLocation.x, playerLocation.y -1))
         // console.log(playerLocation.x, playerLocation.y -1)
       } else {
-        console.log(map.getTile(playerLocation.x, playerLocation.y - 1))
-        console.log(playerLocation.x, playerLocation.y - 1)
+        // console.log(map.getTile(playerLocation.x, playerLocation.y - 1))
+        // console.log(playerLocation.x, playerLocation.y - 1)
         setPlayerLocation({ ...playerLocation, y: playerLocation.y - 1 })
       }
     } else if (direction === 'down') {
