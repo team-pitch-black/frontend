@@ -5,11 +5,12 @@ import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import ArrowKeysReact from 'arrow-keys-react';
 import ArrowUpwardOutlinedIcon from '@material-ui/icons/ArrowUpwardOutlined';
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
 import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
 import './App.css'
 import bg from './8-bit-cave-background-2.jpg'
@@ -21,7 +22,7 @@ import SignUp from './components/SignUp'
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: "#1d181e"
+      main: "#1d181e",
     },
     secondary: {
       main: "#124B52"
@@ -36,20 +37,34 @@ const theme = createMuiTheme({
       main: "#130d0f"
     },
     success: {
-      main: "#82260d"
+      main: "#0D8226"
     }
   },
 })
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') ? true : false)
+  
+  // SnackBar popup
+  const [open, setOpen] = useState(false)
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false)
+  }
 
   const [playerLocation, setPlayerLocation] = useState({
     x: 0,
     y: 0
   })
 
-  const [map, setmap] = useState({
+  const [map, setMap] = useState({
     cols: 25,
     rows: 25,
     tileWidth: 30,
@@ -92,22 +107,22 @@ function App() {
 
     e = e || window.event;
 
-    if (e.keyCode == '38') {
+    if (e.keyCode === '38') {
       // up arrow
       console.log('up')
       moveHandler('up')
     }
-    else if (e.keyCode == '40') {
+    else if (e.keyCode === '40') {
       // down arrow
       console.log('down')
       moveHandler('down')
     }
-    else if (e.keyCode == '37') {
+    else if (e.keyCode === '37') {
       // left arrow
       console.log('left')
       moveHandler('left')
     }
-    else if (e.keyCode == '39') {
+    else if (e.keyCode === '39') {
       // right arrow
       console.log('right')
       moveHandler('right')
@@ -152,10 +167,15 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App" style={{ backgroundImage: `url(${bg})`, backgroundPosition: 'center top', backgroundSize: 'cover' }}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+          <Alert onClose={handleClose} severity="success">
+              Thanks for signing up, have fun!
+          </Alert>
+        </Snackbar>
         <Router>
           <Menu isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
           <Route path="/login" render={(props) => <UserLogin {...props} setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/signup" component={SignUp} />
+          <Route path="/signup" render={(props) => <SignUp {...props} setIsLoggedIn={setIsLoggedIn} setOpen={setOpen} />} />
           <Route exact path="/" render={() => {
             if (isLoggedIn) {
               return (
@@ -177,9 +197,9 @@ function App() {
                               <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white'}} fontSize='inherit' />
                             </Grid>
                             <Grid item style={{fontSize: "50px"}}>
-                              <ArrowBackOutlinedIcon onClick={() => moveHandler('left')} style={{ color: 'white', padding: 5 }} fontSize='inherit' />
-                              <ArrowDownwardOutlinedIcon onClick={() => moveHandler('down')} style={{ color: 'white', padding: 5 }} fontSize='inherit' />
-                              <ArrowForwardOutlinedIcon onClick={() => moveHandler('right')} style={{ color: 'white', padding: 5 }} fontSize='inherit' />
+                              <ArrowBackOutlinedIcon fontSize="inherit" onClick={() => moveHandler('left')} style={{ color: 'white' }} fontSize='inherit' />
+                              <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} fontSize='inherit' />
+                              <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} fontSize='inherit' />
                             </Grid>
                           </div>
                         </Grid>

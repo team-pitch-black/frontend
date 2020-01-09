@@ -1,17 +1,35 @@
 import React from 'react'
 import axios from 'axios'
+import Snackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
 import FormControl from '@material-ui/core/FormControl'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 class SignUp extends React.Component {
     state = {
         credentials: {
             username: '',
             password: ''
-        }
+        },
+        open: false
     }
+
+    // Close Snackbar
+    handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        this.setState({
+            ...this.state,
+            open: false
+        })
+    };
 
     // onChange handler
     handleChange = e => {
@@ -27,13 +45,21 @@ class SignUp extends React.Component {
     login = e => {
         e.preventDefault()
         axios
-            .post("http://localhost:5000/api/login/", this.state.credentials)
+            .post("http://localhost:8000/api/registration/", this.state.credentials)
             .then(res => {
+                localStorage.setItem("token", res.data.key)
                 this.props.setIsLoggedIn(true)
-                localStorage.setItem("token", res.data.payload)
+                this.props.setOpen(true)
                 this.props.history.push('/')
             })
-            .catch(err => console.log(err.response))
+            .catch(err => {
+                // Display Snackbar
+                this.setState({
+                    ...this.state,
+                    open: true
+                })
+                console.log(err.response)
+            })
     }
 
     render() {
@@ -41,28 +67,40 @@ class SignUp extends React.Component {
             <div className="signup-form">
                 <div style={{ backgroundColor: "white", maxWidth: "350px", margin: "auto", padding: "30px", borderRadius: "4px" }}>
                     <h2>Sign Up</h2>
-                    <form>
+                    <form autoComplete="off">
                         <FormControl>
                             <TextField
                                 name="username"
                                 label="Username"
                                 variant="outlined"
-                                required
                                 value={this.state.credentials.username}
                                 onChange={this.handleChange}
-                                style={{ marginBottom: "10px" }}
+                                style={{ margin: "5px 0 12px 0" }}
                             />
                             <TextField
-                                name="password"
-                                label="password"
+                                name="password1"
+                                label="Password"
                                 type="password"
                                 variant="outlined"
-                                required
-                                value={this.state.credentials.password}
+                                value={this.state.credentials.password1}
                                 onChange={this.handleChange}
-                                style={{ marginBottom: "10px" }}
+                                style={{ margin: "5px 0 12px 0" }}
                             />
-                            <Button variant="contained" onClick={this.login} style={{ marginBottom: "20px" }}>Sign Up</Button>
+                            <TextField
+                                name="password2"
+                                label="Password"
+                                type="password"
+                                variant="outlined"
+                                value={this.state.credentials.password2}
+                                onChange={this.handleChange}
+                                style={{ margin: "5px 0 12px 0" }}
+                            />
+                            <Button variant="contained" onClick={this.login} style={{ marginBottom: "20px" }} color="secondary" type="submit">Sign Up</Button>
+                            <Snackbar open={this.state.open} autoHideDuration={6000} onClose={this.handleClose}>
+                                <Alert onClose={this.handleClose} severity="error">
+                                    There was an error signing up, please try again
+                                </Alert>
+                            </Snackbar>
                         </FormControl>
                     </form>
                 </div>
