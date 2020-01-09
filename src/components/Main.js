@@ -16,7 +16,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
     const [isLoaded, setIsLoaded ] = useState(false)
     useEffect(() => {
         axios
-            .get('https://pitch-black-mud.herokuapp.com/api/adv/map')
+            .get('https://pitch-black.herokuapp.com/api/adv/map')
             .then(res => {
                 const rooms = res.data
                 let tileIdx
