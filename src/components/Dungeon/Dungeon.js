@@ -75,9 +75,10 @@ export default function Dungeon(props) {
             }
             
         }
+        console.log(props.map)
         // console.log('inside useEffect', props.playerLocation)
         // ctx.drawImage(playerRef.current, 205, 181, 20, 20, props.playerLocation.x, props.playerLocation.y, 30, 30)
-    })
+    }, [props.map.tiles])
     
     return (
         <div className="dungeon-container">
