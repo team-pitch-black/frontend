@@ -58,7 +58,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
             setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
             setPlayersInRoom(res.data.players)
             setPersonalItems(res.data.player_items)
-            setCurRoom(res.data.room_type)
+            setCurRoom(res.data.description)
         })
         .catch(err => {console.log(err)})
     }
@@ -181,8 +181,6 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                             ) : (
                                 <p>Loading...</p>
                             )}
-                            <h2>Current Room:</h2>
-                            <p>{curRoom}</p>
                         </div>
                     </Grid>
                     <Grid item style={{ minHeight: "100%" }}>
@@ -203,7 +201,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                             </Grid>
                             <Grid item>
                                 <div className="ui-item">
-                                    <h3>Players in Room</h3>
+                                    <h3>Players in {curRoom}</h3>
                                     <ul>
                                     {playersInRoom.map((player)=> {
                                         return <li>{player}</li>
