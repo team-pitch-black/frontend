@@ -38,7 +38,7 @@
 }
 
 .ui-item {
-  background-color: #1d2025;
+  background-color: rgba(29, 32, 37, 0.75);
   padding: 15px;
   border-radius: 5px;
   min-width: 220px;
