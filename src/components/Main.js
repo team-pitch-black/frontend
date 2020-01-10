@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -9,24 +8,25 @@ import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined'
 import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
 
 import Dungeon from './Dungeon/Dungeon'
-import { Button } from '@material-ui/core'
+import { axiosWithAuth } from '../axiosWithAuth'
 
 
 export default function Main({ map, setMap, playerLocation, setPlayerLocation, isLoggedIn }) {
+    const [playersInRoom, setPlayersInRoom] = useState([])
+    const [itemsInRoom, setItemsInRoom] = useState([])
+    const [personalItems, setPersonalItems] = useState([])
     const [isLoaded, setIsLoaded ] = useState(false)
     useEffect(() => {
-        axios
-            .get('https://pitch-black.herokuapp.com/api/adv/map')
+        axiosWithAuth()
+            .get('https://pitch-black.herokuapp.com/api/adv/map/')
             .then(res => {
-                const rooms = res.data
+                const rooms = res.data.rooms
                 let tileIdx
                 let newTiles = [...map.tiles]
                 for (const room of rooms) {
                     tileIdx = room.grid_y * map.cols + room.grid_x
-                    // console.log(room.grid_x, room.grid_y, tileIdx)
                     newTiles[tileIdx] = parseInt(room.room_type)
                 }
-                console.log('newTiles: ', newTiles)
                 setMap(prevState => {
                     return {
                         ...prevState,
@@ -36,40 +36,86 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                 setIsLoaded(true)
             })
             .catch(err => console.log(err))
+            updatePlayerLocation()
     }, [])
+
+    const updatePlayerLocation = () => {
+        axiosWithAuth()
+        .get("https://pitch-black.herokuapp.com/api/adv/init/")
+        .then(res => {
+            setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
+            setPlayersInRoom(res.data.players)
+            setPersonalItems(res.data.player_items)
+        })
+        .catch(err => {console.log(err)})
+    }
+
+    const movementHandler = (direction) => {
+        axiosWithAuth()
+            .post("https://pitch-black.herokuapp.com/api/adv/move/", {'direction': direction})
+            .then(res => {
+                console.log(res)
+                setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
+                setPlayersInRoom(res.data.players)
+                setItemsInRoom(res.data.room_items)
+            })
+            .catch(err => {console.log(err)})
+
+    }
 
     const moveHandler = (direction) => {
 
         if (direction === 'up') {
             if (map.getTile(playerLocation.x, playerLocation.y - 1) === 0 || map.getTile(playerLocation.x, playerLocation.y - 1) === undefined) {
-                // console.log(map.getTile(playerLocation.x, playerLocation.y -1))
-                // console.log(playerLocation.x, playerLocation.y -1)
+
             } else {
-                // console.log(map.getTile(playerLocation.x, playerLocation.y - 1))
-                // console.log(playerLocation.x, playerLocation.y - 1)
-                setPlayerLocation({ ...playerLocation, y: playerLocation.y - 1 })
+                movementHandler('d')
             }
         } else if (direction === 'down') {
             if (map.getTile(playerLocation.x, playerLocation.y + 1) === 0 || map.getTile(playerLocation.x, playerLocation.y + 1) === undefined) {
 
             } else {
-                setPlayerLocation({ ...playerLocation, y: playerLocation.y + 1 })
+                movementHandler('u')
             }
 
         } else if (direction === 'left') {
             if (map.getTile(playerLocation.x - 1, playerLocation.y) === 0 || playerLocation.x - 1 < 0) {
 
             } else {
-                setPlayerLocation({ ...playerLocation, x: playerLocation.x - 1 })
+                movementHandler('l')
             }
 
         } else if (direction === 'right') {
             if (map.getTile(playerLocation.x + 1, playerLocation.y) === 0 || playerLocation.x + 1 > 24) {
 
             } else {
-                setPlayerLocation({ ...playerLocation, x: playerLocation.x + 1 })
+                movementHandler('r')
             }
         }
+    }
+
+    const grabItem = (itemName) => {
+        axiosWithAuth()
+            .post('https://pitch-black.herokuapp.com/api/adv/get-item/', {'item': itemName})
+            .then(res => {
+                console.log(res)
+                setItemsInRoom(res.data.room_items)
+                setPersonalItems(res.data.player_items)
+            })
+            .catch(err => {console.log(err)})
+
+    }
+
+    const dropItem = (itemName) => {
+        axiosWithAuth()
+        .post('https://pitch-black.herokuapp.com/api/adv/drop-item/', {'item': itemName})
+        .then(res => {
+            console.log(res)
+            setItemsInRoom(res.data.room_items)
+            setPersonalItems(res.data.player_items)
+        })
+        .catch(err => {console.log(err)})
+
     }
 
     // Event Listeners for arrow movement with keys
@@ -131,12 +177,37 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                         <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
                                         <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
                                     </Grid>
+                                    <button onClick={() => movementHandler()}>move test</button>
                                 </div>
                             </Grid>
                             <Grid item>
                                 <div className="ui-item">
                                     <h3>Players in Room</h3>
-                                    <Button onClick={console.log(map.tiles)}>Log</Button>
+                                    <ul>
+                                    {playersInRoom.map((player)=> {
+                                        return <li key="player">{player}</li>
+                                    })}
+                                    </ul>
+                                </div>
+                            </Grid>
+                            <Grid item>
+                                <div className="ui-item">
+                                    <h3>Items in Room</h3>
+                                    <ul>
+                                    {itemsInRoom.map((item)=> {
+                                        return <button onClick={() => grabItem(item)}>{item}</button>
+                                    })}
+                                    </ul>
+                                </div>
+                            </Grid>
+                            <Grid item>
+                                <div className="ui-item">
+                                    <h3>Personal Items</h3>
+                                    <ul>
+                                    {personalItems.map((item)=> {
+                                        return <button onClick={() => dropItem(item)}>{item}</button>
+                                    })}
+                                    </ul>
                                 </div>
                             </Grid>
                             <Grid item>
