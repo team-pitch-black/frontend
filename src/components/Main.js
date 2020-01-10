@@ -8,8 +8,8 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
-import Avatar from "@material-ui/core/Avatar"
-import ListItemAvatar from "@material-ui/core/ListItemAvatar"
+// import Avatar from "@material-ui/core/Avatar"
+// import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import IconButton from "@material-ui/core/IconButton";
 import PersonIcon from '@material-ui/icons/Person'
 import PanToolIcon from '@material-ui/icons/PanTool';
@@ -20,6 +20,7 @@ import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined'
 import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined'
 
 import Dungeon from './Dungeon/Dungeon'
+import Loader from './Loader'
 import { axiosWithAuth } from '../axiosWithAuth'
 
 
@@ -170,11 +171,14 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
             <Container id="main">
                 <Grid container justify="center" spacing={3}>
                     <Grid item>
-                        <div className="ui-item">
+                        <div className="ui-item" style={{minWidth: "750px", minHeight: "750px"}}>
                             {isLoaded ? (
                                 <Dungeon map={map} setIsLoaded={setIsLoaded} playerLocation={playerLocation} />
                             ) : (
-                                <p>Loading...</p>
+                                <div style={{height: "750px", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                                    <Typography variant="h5" style={{color: "white", marginBottom: "15px"}}>Loading...</Typography>
+                                    <Loader />
+                                </div>
                             )}
                         </div>
                     </Grid>
