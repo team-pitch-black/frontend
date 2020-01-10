@@ -2,41 +2,56 @@ import React, { useState, useEffect } from 'react'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import ArrowUpwardOutlinedIcon from '@material-ui/icons/ArrowUpwardOutlined';
-import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
-import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
-import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
+// import Avatar from "@material-ui/core/Avatar"
+// import ListItemAvatar from "@material-ui/core/ListItemAvatar"
+import IconButton from "@material-ui/core/IconButton";
+import PersonIcon from '@material-ui/icons/Person'
+import PanToolIcon from '@material-ui/icons/PanTool';
+import DeleteIcon from "@material-ui/icons/Delete"
+import ArrowUpwardOutlinedIcon from '@material-ui/icons/ArrowUpwardOutlined'
+import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined'
+import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined'
+import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined'
 
 import Dungeon from './Dungeon/Dungeon'
+import Loader from './Loader'
 import { axiosWithAuth } from '../axiosWithAuth'
 
 
 export default function Main({ map, setMap, playerLocation, setPlayerLocation, isLoggedIn }) {
+    const [roomName, setRoomName] = useState('')
     const [playersInRoom, setPlayersInRoom] = useState([])
     const [itemsInRoom, setItemsInRoom] = useState([])
     const [personalItems, setPersonalItems] = useState([])
     const [isLoaded, setIsLoaded ] = useState(false)
     useEffect(() => {
-        axiosWithAuth()
-            .get('https://pitch-black.herokuapp.com/api/adv/map/')
-            .then(res => {
-                const rooms = res.data.rooms
-                let tileIdx
-                let newTiles = [...map.tiles]
-                for (const room of rooms) {
-                    tileIdx = room.grid_y * map.cols + room.grid_x
-                    newTiles[tileIdx] = parseInt(room.room_type)
-                }
-                setMap(prevState => {
-                    return {
-                        ...prevState,
-                        tiles: newTiles
+        if (isLoggedIn) {
+            axiosWithAuth()
+                .get('https://pitch-black.herokuapp.com/api/adv/map/')
+                .then(res => {
+                    const rooms = res.data.rooms
+                    let tileIdx
+                    let newTiles = [...map.tiles]
+                    for (const room of rooms) {
+                        tileIdx = room.grid_y * map.cols + room.grid_x
+                        newTiles[tileIdx] = parseInt(room.room_type)
                     }
+                    setMap(prevState => {
+                        return {
+                            ...prevState,
+                            tiles: newTiles
+                        }
+                    })
+                    setIsLoaded(true)
                 })
-                setIsLoaded(true)
-            })
-            .catch(err => console.log(err))
-            updatePlayerLocation()
+                .catch(err => console.log(err))
+                updatePlayerLocation()
+            }
     }, [])
 
     const updatePlayerLocation = () => {
@@ -46,6 +61,8 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
             setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
             setPlayersInRoom(res.data.players)
             setPersonalItems(res.data.player_items)
+            setItemsInRoom(res.data.room_items)
+            setRoomName(res.data.description)
         })
         .catch(err => {console.log(err)})
     }
@@ -58,6 +75,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                 setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
                 setPlayersInRoom(res.data.players)
                 setItemsInRoom(res.data.room_items)
+                setRoomName(res.data.description)
             })
             .catch(err => {console.log(err)})
 
@@ -152,23 +170,98 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
     if (isLoggedIn) {
         return (
             <Container id="main">
-                <Grid container justify="center" spacing={8}>
+                <Typography variant="h1" color="error">Pitch Black</Typography>
+                <Typography variant="h4" color="error" style={{marginBottom: "50px"}}>Multi User Dungeon Game</Typography>
+                <Grid container justify="center" spacing={3}>
                     <Grid item>
-                        <div className="ui-item">
+                        <div className="ui-item" style={{minWidth: "750px", minHeight: "750px"}}>
                             {isLoaded ? (
                                 <Dungeon map={map} setIsLoaded={setIsLoaded} playerLocation={playerLocation} />
                             ) : (
-                                <p>Loading...</p>
+                                <div style={{height: "750px", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                                    <Typography variant="h5" style={{color: "white", marginBottom: "15px"}}>Loading...</Typography>
+                                    <Loader />
+                                </div>
                             )}
-                            <h2>Current Room:</h2>
-                            <p>Pathway</p>
                         </div>
                     </Grid>
                     <Grid item style={{ minHeight: "100%" }}>
                         <Grid container direction="column" alignItems="center" spacing={3}>
                             <Grid item>
                                 <div className="ui-item">
-                                    <h3>Controls</h3>
+                                    <h2>{roomName}</h2>
+                                    <h3>Players</h3>
+                                    <List dense={true}>
+                                    {playersInRoom.map((player)=> (
+                                        <ListItem key={player}>
+                                            <ListItemIcon>
+                                                <PersonIcon color="secondary"/>
+                                            </ListItemIcon>
+                                            <ListItemText primary={player} style={{color: "white"}}/>
+                                        </ListItem>
+                                    ))}
+                                    </List>
+                                    <h3>Items</h3>
+                                    {itemsInRoom.length > 0 ? 
+                                        <List dense>
+                                        {itemsInRoom.map((item)=> (
+                                            <ListItem>
+                                                {/* <ListItemAvatar>
+                                                    <Avatar>
+                                                        <PanToolIcon />
+                                                    </Avatar>
+                                                </ListItemAvatar> */}
+                                                <ListItemText primary={item} style={{color: "white"}} />
+                                                <ListItemSecondaryAction>
+                                                    <IconButton edge="end" aria-label="delete">
+                                                        <PanToolIcon color="secondary" onClick={() => grabItem(item)} />
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>
+                                            </ListItem>
+                                            )
+                                        )}
+                                        </List> : <p>Empty</p>
+                                    }
+                                </div>
+                            </Grid>
+                            <Grid item>
+                                <div className="ui-item">
+                                    <h3>Backpack</h3>
+                                        {personalItems.length > 0 ? 
+                                        <List dense>
+                                        {personalItems.map((item)=> {
+                                            return (
+                                                <ListItem>
+                                                    <ListItemText primary={item} style={{color: "white"}} />
+                                                    <ListItemSecondaryAction>
+                                                        <IconButton edge="end" aria-label="delete">
+                                                            <DeleteIcon color="error" onClick={() => dropItem(item)} />
+                                                        </IconButton>
+                                                    </ListItemSecondaryAction>
+                                                </ListItem>
+                                            )}
+                                        )}
+                                        </List> : <p>Empty</p>
+                                        }
+                                </div>
+                            </Grid>
+                            <Grid item>
+                                <div className="ui-item">
+                                    <h3>Chat</h3>
+                                    {false ? (
+                                        <>
+                                            <div className='chat-box' style={{ display: 'flex', padding: 10, borderRadius: 5, height: 300, width: 300, backgroundColor: 'grey' }}>
+                                                {
+                                                    //loop through messages
+                                                }
+                                            </div>
+                                            <input placeholder='type here' style={{ width: 314, borderRadius: 5 }} />
+                                        </>
+                                    ) : <p>Work In Progress...</p>}
+                                </div>
+                            </Grid>
+                            <Grid item>
+                                <div className="ui-item">
                                     <Grid item style={{ fontSize: "50px" }}>
                                         <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white' }} fontSize='inherit' />
                                     </Grid>
@@ -177,48 +270,6 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                         <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
                                         <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
                                     </Grid>
-                                    <button onClick={() => movementHandler()}>move test</button>
-                                </div>
-                            </Grid>
-                            <Grid item>
-                                <div className="ui-item">
-                                    <h3>Players in Room</h3>
-                                    <ul>
-                                    {playersInRoom.map((player)=> {
-                                        return <li key="player">{player}</li>
-                                    })}
-                                    </ul>
-                                </div>
-                            </Grid>
-                            <Grid item>
-                                <div className="ui-item">
-                                    <h3>Items in Room</h3>
-                                    <ul>
-                                    {itemsInRoom.map((item)=> {
-                                        return <button onClick={() => grabItem(item)}>{item}</button>
-                                    })}
-                                    </ul>
-                                </div>
-                            </Grid>
-                            <Grid item>
-                                <div className="ui-item">
-                                    <h3>Personal Items</h3>
-                                    <ul>
-                                    {personalItems.map((item)=> {
-                                        return <button onClick={() => dropItem(item)}>{item}</button>
-                                    })}
-                                    </ul>
-                                </div>
-                            </Grid>
-                            <Grid item>
-                                <div className="ui-item">
-                                    <h3>Chat</h3>
-                                    <div className='chat-box' style={{ display: 'flex', padding: 10, borderRadius: 5, height: 300, width: 300, backgroundColor: 'grey' }}>
-                                        {
-                                            //loop through messages
-                                        }
-                                    </div>
-                                    <input placeholder='type here' style={{ width: 314, borderRadius: 5 }} />
                                 </div>
                             </Grid>
                         </Grid>
@@ -230,8 +281,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
         return (
             <>
                 <Typography variant="h1" color="error">Pitch Black</Typography>
-                <Typography variant="h4" color="error">Multi User Dungeon Experience</Typography>
-                <h3>Create an Account!</h3>
+                <Typography variant="h4" color="error">Multi User Dungeon Game</Typography>
             </>
         )
     }

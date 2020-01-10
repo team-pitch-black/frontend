@@ -38,9 +38,11 @@ export default function MenuAppBar({isLoggedIn, setIsLoggedIn}) {
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon />
                     </IconButton>
-                    <Link to="/" style={{textDecoration: "none", color: "white"}} className={classes.title} >
-                        <img src={`${process.env.PUBLIC_URL}/cave-192.png`} width="35" height="35" alt="Pitch Black Logo" />
-                    </Link>
+                    <div className={classes.title}>
+                        <Link to="/" style={{textDecoration: "none", color: "white"}} >
+                            <img src={`${process.env.PUBLIC_URL}/cave-192.png`} width="35" height="35" alt="Pitch Black Logo" />
+                        </Link>
+                    </div>
                     {isLoggedIn ? (
                         <div>
                             <ButtonGroup color="secondary" variant="contained">

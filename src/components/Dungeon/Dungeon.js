@@ -71,7 +71,7 @@ export default function Dungeon(props) {
     
     return (
         <div className="dungeon-container">
-            <div className='testing' style={{position: 'relative'}}>
+            <div className='dungeon-canvas-container' style={{position: 'relative'}}>
                 <canvas id="dungeon-canvas" ref={canvasRef} width="750" height="750"></canvas>
                 <img src={player1} style={{position: 'absolute', left: props.playerLocation.x * 30 +7, top: props.playerLocation.y * 30 +5 }} alt="player" />
             </div>

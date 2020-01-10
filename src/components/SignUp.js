@@ -65,7 +65,7 @@ class SignUp extends React.Component {
     render() {
         return (
             <div className="signup-form">
-                <div style={{ backgroundColor: "white", maxWidth: "350px", margin: "auto", padding: "30px", borderRadius: "4px" }}>
+                <div style={{ backgroundColor: "#b7b7b7", maxWidth: "350px", margin: "auto", padding: "30px", borderRadius: "4px" }}>
                     <h2>Sign Up</h2>
                     <form autoComplete="off">
                         <FormControl>
