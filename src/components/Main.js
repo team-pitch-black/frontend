@@ -17,6 +17,7 @@ import { axiosWithAuth } from '../axiosWithAuth'
 
 
 export default function Main({ map, setMap, playerLocation, setPlayerLocation, isLoggedIn }) {
+    const [roomName, setRoomName] = useState('')
     const [playersInRoom, setPlayersInRoom] = useState([])
     const [itemsInRoom, setItemsInRoom] = useState([])
     const [personalItems, setPersonalItems] = useState([])
@@ -51,6 +52,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
             setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
             setPlayersInRoom(res.data.players)
             setPersonalItems(res.data.player_items)
+            setRoomName(res.data.description)
         })
         .catch(err => {console.log(err)})
     }
@@ -157,7 +159,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
     if (isLoggedIn) {
         return (
             <Container id="main">
-                <Grid container justify="center" spacing={8}>
+                <Grid container justify="center" spacing={3}>
                     <Grid item>
                         <div className="ui-item">
                             {isLoaded ? (
@@ -165,8 +167,6 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                             ) : (
                                 <p>Loading...</p>
                             )}
-                            <h2>Current Room:</h2>
-                            <p>Pathway</p>
                         </div>
                     </Grid>
                     <Grid item style={{ minHeight: "100%" }}>
@@ -185,10 +185,11 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                             </Grid>
                             <Grid item>
                                 <div className="ui-item">
+                                    <h2>{roomName}</h2>
                                     <h3>Players in Room</h3>
                                     <List dense={true}>
                                     {playersInRoom.map((player)=> (
-                                        <ListItem>
+                                        <ListItem key={player}>
                                             <ListItemIcon>
                                                 <PersonIcon color="secondary"/>
                                             </ListItemIcon>
@@ -196,16 +197,14 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                         </ListItem>
                                     ))}
                                     </List>
-                                </div>
-                            </Grid>
-                            <Grid item>
-                                <div className="ui-item">
-                                    <h3>Items in Room</h3>
-                                    <ul>
-                                    {itemsInRoom.map((item)=> {
-                                        return <button onClick={() => grabItem(item)}>{item}</button>
-                                    })}
-                                    </ul>
+                                    <div className="ui-item">
+                                        <h3>Items in Room</h3>
+                                        <ul>
+                                        {itemsInRoom.map((item)=> {
+                                            return <button onClick={() => grabItem(item)}>{item}</button>
+                                        })}
+                                        </ul>
+                                    </div>
                                 </div>
                             </Grid>
                             <Grid item>
