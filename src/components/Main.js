@@ -15,12 +15,14 @@ import { axiosWithAuth } from '../axiosWithAuth'
 
 export default function Main({ map, setMap, playerLocation, setPlayerLocation, isLoggedIn }) {
     const [playersInRoom, setPlayersInRoom] = useState([])
+    const [itemsInRoom, setItemsInRoom] = useState([])
+    const [personalItems, setPersonalItems] = useState([])
     const [isLoaded, setIsLoaded ] = useState(false)
     useEffect(() => {
-        axios
-            .get('https://pitch-black.herokuapp.com/api/adv/map')
+        axiosWithAuth()
+            .get('https://pitch-black.herokuapp.com/api/adv/map/')
             .then(res => {
-                const rooms = res.data
+                const rooms = res.data.rooms
                 let tileIdx
                 let newTiles = [...map.tiles]
                 for (const room of rooms) {
@@ -45,6 +47,8 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
     }, [])
 
 
+
+
     const updatePlayerLocation = () => {
         axiosWithAuth()
         .get("https://pitch-black.herokuapp.com/api/adv/init/")
@@ -52,7 +56,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
             console.log(res)
             setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
             setPlayersInRoom(res.data.players)
-            
+            setPersonalItems(res.data.player_items)
         })
         .catch(err => {console.log(err)})
     }
@@ -64,6 +68,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                 console.log(res)
                 setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
                 setPlayersInRoom(res.data.players)
+                setItemsInRoom(res.data.room_items)
             })
             .catch(err => {console.log(err)})
 
@@ -105,6 +110,30 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                 movementHandler('r')
             }
         }
+    }
+
+    const grabItem = (itemName) => {
+        axiosWithAuth()
+            .post('https://pitch-black.herokuapp.com/api/adv/get-item/', {'item': itemName})
+            .then(res => {
+                console.log(res)
+                setItemsInRoom(res.data.room_items)
+                setPersonalItems(res.data.player_items)
+            })
+            .catch(err => {console.log(err)})
+
+    }
+
+    const dropItem = (itemName) => {
+        axiosWithAuth()
+        .post('https://pitch-black.herokuapp.com/api/adv/drop-item/', {'item': itemName})
+        .then(res => {
+            console.log(res)
+            setItemsInRoom(res.data.room_items)
+            setPersonalItems(res.data.player_items)
+        })
+        .catch(err => {console.log(err)})
+
     }
 
     // Event Listeners for arrow movement with keys
@@ -175,6 +204,26 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                     <ul>
                                     {playersInRoom.map((player)=> {
                                         return <li>{player}</li>
+                                    })}
+                                    </ul>
+                                </div>
+                            </Grid>
+                            <Grid item>
+                                <div className="ui-item">
+                                    <h3>Items in Room</h3>
+                                    <ul>
+                                    {itemsInRoom.map((item)=> {
+                                        return <button onClick={() => grabItem(item)}>{item}</button>
+                                    })}
+                                    </ul>
+                                </div>
+                            </Grid>
+                            <Grid item>
+                                <div className="ui-item">
+                                    <h3>Personal Items</h3>
+                                    <ul>
+                                    {personalItems.map((item)=> {
+                                        return <button onClick={() => dropItem(item)}>{item}</button>
                                     })}
                                     </ul>
                                 </div>
