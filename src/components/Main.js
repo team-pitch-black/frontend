@@ -173,7 +173,6 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                         <Grid container direction="column" alignItems="center" spacing={3}>
                             <Grid item>
                                 <div className="ui-item">
-                                    <h3>Controls</h3>
                                     <Grid item style={{ fontSize: "50px" }}>
                                         <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white' }} fontSize='inherit' />
                                     </Grid>
@@ -182,15 +181,11 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                         <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
                                         <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
                                     </Grid>
-                                    <button onClick={() => movementHandler()}>move test</button>
                                 </div>
                             </Grid>
                             <Grid item>
                                 <div className="ui-item">
                                     <h3>Players in Room</h3>
-                                    {/* {playersInRoom.map((player)=> {
-                                        return <li key="player">{player}</li>
-                                    })} */}
                                     <List dense={true}>
                                     {playersInRoom.map((player)=> (
                                         <ListItem>
