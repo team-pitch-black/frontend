@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
+import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
-import List from '@material-ui/core/List';
+import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import PersonIcon from '@material-ui/icons/Person';
-import ArrowUpwardOutlinedIcon from '@material-ui/icons/ArrowUpwardOutlined';
-import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
-import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
-import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
+import Avatar from "@material-ui/core/Avatar"
+import ListItemAvatar from "@material-ui/core/ListItemAvatar"
+import IconButton from "@material-ui/core/IconButton";
+import PersonIcon from '@material-ui/icons/Person'
+import PanToolIcon from '@material-ui/icons/PanTool';
+import DeleteIcon from "@material-ui/icons/Delete"
+import ArrowUpwardOutlinedIcon from '@material-ui/icons/ArrowUpwardOutlined'
+import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined'
+import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined'
+import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined'
 
 import Dungeon from './Dungeon/Dungeon'
 import { axiosWithAuth } from '../axiosWithAuth'
@@ -52,6 +59,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
             setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
             setPlayersInRoom(res.data.players)
             setPersonalItems(res.data.player_items)
+            setItemsInRoom(res.data.room_items)
             setRoomName(res.data.description)
         })
         .catch(err => {console.log(err)})
@@ -186,7 +194,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                             <Grid item>
                                 <div className="ui-item">
                                     <h2>{roomName}</h2>
-                                    <h3>Players in Room</h3>
+                                    <h3>Players</h3>
                                     <List dense={true}>
                                     {playersInRoom.map((player)=> (
                                         <ListItem key={player}>
@@ -197,24 +205,51 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                         </ListItem>
                                     ))}
                                     </List>
-                                    <div className="ui-item">
-                                        <h3>Items in Room</h3>
-                                        <ul>
-                                        {itemsInRoom.map((item)=> {
-                                            return <button onClick={() => grabItem(item)}>{item}</button>
-                                        })}
-                                        </ul>
-                                    </div>
+                                    <Divider />
+                                    {/* <div className="ui-item"> */}
+                                        <h3>Items</h3>
+                                        {itemsInRoom.length > 0 ? 
+                                            <List dense>
+                                            {itemsInRoom.map((item)=> (
+                                                <ListItem>
+                                                    {/* <ListItemAvatar>
+                                                        <Avatar>
+                                                            <PanToolIcon />
+                                                        </Avatar>
+                                                    </ListItemAvatar> */}
+                                                    <ListItemText primary={item} style={{color: "white"}} />
+                                                    <ListItemSecondaryAction>
+                                                        <IconButton edge="end" aria-label="delete">
+                                                            <PanToolIcon color="secondary" onClick={() => grabItem(item)} />
+                                                        </IconButton>
+                                                    </ListItemSecondaryAction>
+                                                </ListItem>
+                                                )
+                                            )}
+                                            </List> : <p>Empty</p>
+                                        }
+                                    {/* </div> */}
                                 </div>
                             </Grid>
                             <Grid item>
                                 <div className="ui-item">
-                                    <h3>Personal Items</h3>
-                                    <ul>
-                                    {personalItems.map((item)=> {
-                                        return <button onClick={() => dropItem(item)}>{item}</button>
-                                    })}
-                                    </ul>
+                                    <h3>Backpack</h3>
+                                        {personalItems.length > 0 ? 
+                                        <List dense>
+                                        {personalItems.map((item)=> {
+                                            return (
+                                                <ListItem>
+                                                    <ListItemText primary={item} style={{color: "white"}} />
+                                                    <ListItemSecondaryAction>
+                                                        <IconButton edge="end" aria-label="delete">
+                                                            <DeleteIcon color="error" onClick={() => dropItem(item)} />
+                                                        </IconButton>
+                                                    </ListItemSecondaryAction>
+                                                </ListItem>
+                                            )}
+                                        )}
+                                        </List> : <p>Empty</p>
+                                        }
                                 </div>
                             </Grid>
                             <Grid item>
