@@ -79,7 +79,7 @@ class UserLogin extends React.Component {
                             />
                             <TextField
                                 name="password"
-                                label="password"
+                                label="Password"
                                 type="password"
                                 variant="outlined"
                                 value={this.state.credentials.password}
