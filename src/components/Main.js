@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -9,7 +8,6 @@ import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined'
 import ArrowForwardOutlinedIcon from '@material-ui/icons/ArrowForwardOutlined';
 
 import Dungeon from './Dungeon/Dungeon'
-import { Button } from '@material-ui/core'
 import { axiosWithAuth } from '../axiosWithAuth'
 
 
@@ -27,10 +25,8 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                 let newTiles = [...map.tiles]
                 for (const room of rooms) {
                     tileIdx = room.grid_y * map.cols + room.grid_x
-                    // console.log(room.grid_x, room.grid_y, tileIdx)
                     newTiles[tileIdx] = parseInt(room.room_type)
                 }
-                console.log('newTiles: ', newTiles)
                 setMap(prevState => {
                     return {
                         ...prevState,
@@ -41,19 +37,12 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
             })
             .catch(err => console.log(err))
             updatePlayerLocation()
-            
-            
-
     }, [])
-
-
-
 
     const updatePlayerLocation = () => {
         axiosWithAuth()
         .get("https://pitch-black.herokuapp.com/api/adv/init/")
         .then(res => {
-            console.log(res)
             setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
             setPlayersInRoom(res.data.players)
             setPersonalItems(res.data.player_items)
@@ -78,19 +67,14 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
 
         if (direction === 'up') {
             if (map.getTile(playerLocation.x, playerLocation.y - 1) === 0 || map.getTile(playerLocation.x, playerLocation.y - 1) === undefined) {
-                // console.log(map.getTile(playerLocation.x, playerLocation.y -1))
-                // console.log(playerLocation.x, playerLocation.y -1)
+
             } else {
-                // console.log(map.getTile(playerLocation.x, playerLocation.y - 1))
-                // console.log(playerLocation.x, playerLocation.y - 1)
-                // setPlayerLocation({ ...playerLocation, y: playerLocation.y - 1 })
                 movementHandler('d')
             }
         } else if (direction === 'down') {
             if (map.getTile(playerLocation.x, playerLocation.y + 1) === 0 || map.getTile(playerLocation.x, playerLocation.y + 1) === undefined) {
 
             } else {
-                // setPlayerLocation({ ...playerLocation, y: playerLocation.y + 1 })
                 movementHandler('u')
             }
 
@@ -98,7 +82,6 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
             if (map.getTile(playerLocation.x - 1, playerLocation.y) === 0 || playerLocation.x - 1 < 0) {
 
             } else {
-                // setPlayerLocation({ ...playerLocation, x: playerLocation.x - 1 })
                 movementHandler('l')
             }
 
@@ -106,7 +89,6 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
             if (map.getTile(playerLocation.x + 1, playerLocation.y) === 0 || playerLocation.x + 1 > 24) {
 
             } else {
-                // setPlayerLocation({ ...playerLocation, x: playerLocation.x + 1 })
                 movementHandler('r')
             }
         }
@@ -203,7 +185,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                     <h3>Players in Room</h3>
                                     <ul>
                                     {playersInRoom.map((player)=> {
-                                        return <li>{player}</li>
+                                        return <li key="player">{player}</li>
                                     })}
                                     </ul>
                                 </div>

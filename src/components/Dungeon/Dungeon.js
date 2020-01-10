@@ -38,21 +38,11 @@ const room_types = {
 }
 
 export default function Dungeon(props) {
-    // const playerRef = useRef(null)
     const canvasRef = useRef(null)
     const spriteRef = useRef(null)
 
-    // const players = {
-    //     1: {
-    //         name: 'player1',
-    //         sx: 205,
-    //         sy: 181
-    //     }
-    // }
-
     useEffect(() => {
         const ctx = canvasRef.current.getContext('2d')
-        console.log('Rendering...')
         ctx.fillStyle = '#000000'
         spriteRef.current.onload = () => {
             // Loop over map
@@ -60,7 +50,6 @@ export default function Dungeon(props) {
                 for (let r = 0; r < props.map.rows; r++) {
                     let tile = props.map.getTile(c, r);
                     if (tile !== 0) { // 0 => empty tile
-                        console.log('loop')
                         ctx.drawImage(
                             spriteRef.current, // image
                             room_types[tile].sx, // source x
@@ -78,9 +67,6 @@ export default function Dungeon(props) {
             }
             
         }
-        console.log(props.map)
-        // console.log('inside useEffect', props.playerLocation)
-        // ctx.drawImage(playerRef.current, 205, 181, 20, 20, props.playerLocation.x, props.playerLocation.y, 30, 30)
     }, [props.map])
     
     return (
