@@ -73,6 +73,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                 setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
                 setPlayersInRoom(res.data.players)
                 setItemsInRoom(res.data.room_items)
+                setRoomName(res.data.description)
             })
             .catch(err => {console.log(err)})
 
@@ -205,30 +206,27 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                         </ListItem>
                                     ))}
                                     </List>
-                                    <Divider />
-                                    {/* <div className="ui-item"> */}
-                                        <h3>Items</h3>
-                                        {itemsInRoom.length > 0 ? 
-                                            <List dense>
-                                            {itemsInRoom.map((item)=> (
-                                                <ListItem>
-                                                    {/* <ListItemAvatar>
-                                                        <Avatar>
-                                                            <PanToolIcon />
-                                                        </Avatar>
-                                                    </ListItemAvatar> */}
-                                                    <ListItemText primary={item} style={{color: "white"}} />
-                                                    <ListItemSecondaryAction>
-                                                        <IconButton edge="end" aria-label="delete">
-                                                            <PanToolIcon color="secondary" onClick={() => grabItem(item)} />
-                                                        </IconButton>
-                                                    </ListItemSecondaryAction>
-                                                </ListItem>
-                                                )
-                                            )}
-                                            </List> : <p>Empty</p>
-                                        }
-                                    {/* </div> */}
+                                    <h3>Items</h3>
+                                    {itemsInRoom.length > 0 ? 
+                                        <List dense>
+                                        {itemsInRoom.map((item)=> (
+                                            <ListItem>
+                                                {/* <ListItemAvatar>
+                                                    <Avatar>
+                                                        <PanToolIcon />
+                                                    </Avatar>
+                                                </ListItemAvatar> */}
+                                                <ListItemText primary={item} style={{color: "white"}} />
+                                                <ListItemSecondaryAction>
+                                                    <IconButton edge="end" aria-label="delete">
+                                                        <PanToolIcon color="secondary" onClick={() => grabItem(item)} />
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>
+                                            </ListItem>
+                                            )
+                                        )}
+                                        </List> : <p>Empty</p>
+                                    }
                                 </div>
                             </Grid>
                             <Grid item>
@@ -255,12 +253,16 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                             <Grid item>
                                 <div className="ui-item">
                                     <h3>Chat</h3>
-                                    <div className='chat-box' style={{ display: 'flex', padding: 10, borderRadius: 5, height: 300, width: 300, backgroundColor: 'grey' }}>
-                                        {
-                                            //loop through messages
-                                        }
-                                    </div>
-                                    <input placeholder='type here' style={{ width: 314, borderRadius: 5 }} />
+                                    {false ? (
+                                        <>
+                                            <div className='chat-box' style={{ display: 'flex', padding: 10, borderRadius: 5, height: 300, width: 300, backgroundColor: 'grey' }}>
+                                                {
+                                                    //loop through messages
+                                                }
+                                            </div>
+                                            <input placeholder='type here' style={{ width: 314, borderRadius: 5 }} />
+                                        </>
+                                    ) : <p>Work In Progress...</p>}
                                 </div>
                             </Grid>
                         </Grid>
