@@ -65,7 +65,7 @@ class UserLogin extends React.Component {
     render() {
         return (
             <div className="login-form">
-                <div style={{ backgroundColor: "white", maxWidth: "350px", margin: "auto", padding: "30px", borderRadius: "4px" }}>
+                <div style={{ backgroundColor: "#b7b7b7", maxWidth: "350px", margin: "auto", padding: "30px", borderRadius: "4px" }}>
                     <h2>User Login</h2>
                     <form>
                         <FormControl>

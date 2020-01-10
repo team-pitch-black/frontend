@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
-import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -31,26 +30,28 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
     const [personalItems, setPersonalItems] = useState([])
     const [isLoaded, setIsLoaded ] = useState(false)
     useEffect(() => {
-        axiosWithAuth()
-            .get('https://pitch-black.herokuapp.com/api/adv/map/')
-            .then(res => {
-                const rooms = res.data.rooms
-                let tileIdx
-                let newTiles = [...map.tiles]
-                for (const room of rooms) {
-                    tileIdx = room.grid_y * map.cols + room.grid_x
-                    newTiles[tileIdx] = parseInt(room.room_type)
-                }
-                setMap(prevState => {
-                    return {
-                        ...prevState,
-                        tiles: newTiles
+        if (isLoggedIn) {
+            axiosWithAuth()
+                .get('https://pitch-black.herokuapp.com/api/adv/map/')
+                .then(res => {
+                    const rooms = res.data.rooms
+                    let tileIdx
+                    let newTiles = [...map.tiles]
+                    for (const room of rooms) {
+                        tileIdx = room.grid_y * map.cols + room.grid_x
+                        newTiles[tileIdx] = parseInt(room.room_type)
                     }
+                    setMap(prevState => {
+                        return {
+                            ...prevState,
+                            tiles: newTiles
+                        }
+                    })
+                    setIsLoaded(true)
                 })
-                setIsLoaded(true)
-            })
-            .catch(err => console.log(err))
-            updatePlayerLocation()
+                .catch(err => console.log(err))
+                updatePlayerLocation()
+            }
     }, [])
 
     const updatePlayerLocation = () => {
@@ -169,6 +170,8 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
     if (isLoggedIn) {
         return (
             <Container id="main">
+                <Typography variant="h1" color="error">Pitch Black</Typography>
+                <Typography variant="h4" color="error" style={{marginBottom: "50px"}}>Multi User Dungeon Game</Typography>
                 <Grid container justify="center" spacing={3}>
                     <Grid item>
                         <div className="ui-item" style={{minWidth: "750px", minHeight: "750px"}}>
@@ -184,18 +187,6 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                     </Grid>
                     <Grid item style={{ minHeight: "100%" }}>
                         <Grid container direction="column" alignItems="center" spacing={3}>
-                            <Grid item>
-                                <div className="ui-item">
-                                    <Grid item style={{ fontSize: "50px" }}>
-                                        <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white' }} fontSize='inherit' />
-                                    </Grid>
-                                    <Grid item style={{ fontSize: "50px" }}>
-                                        <ArrowBackOutlinedIcon fontSize="inherit" onClick={() => moveHandler('left')} style={{ color: 'white' }} />
-                                        <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
-                                        <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
-                                    </Grid>
-                                </div>
-                            </Grid>
                             <Grid item>
                                 <div className="ui-item">
                                     <h2>{roomName}</h2>
@@ -269,6 +260,18 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                     ) : <p>Work In Progress...</p>}
                                 </div>
                             </Grid>
+                            <Grid item>
+                                <div className="ui-item">
+                                    <Grid item style={{ fontSize: "50px" }}>
+                                        <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white' }} fontSize='inherit' />
+                                    </Grid>
+                                    <Grid item style={{ fontSize: "50px" }}>
+                                        <ArrowBackOutlinedIcon fontSize="inherit" onClick={() => moveHandler('left')} style={{ color: 'white' }} />
+                                        <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
+                                        <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
+                                    </Grid>
+                                </div>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -278,8 +281,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
         return (
             <>
                 <Typography variant="h1" color="error">Pitch Black</Typography>
-                <Typography variant="h4" color="error">Multi User Dungeon Experience</Typography>
-                <h3>Create an Account!</h3>
+                <Typography variant="h4" color="error">Multi User Dungeon Game</Typography>
             </>
         )
     }
