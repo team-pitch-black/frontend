@@ -18,6 +18,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
     const [itemsInRoom, setItemsInRoom] = useState([])
     const [personalItems, setPersonalItems] = useState([])
     const [isLoaded, setIsLoaded ] = useState(false)
+    const [curRoom, setCurRoom] = useState('')
     useEffect(() => {
         axiosWithAuth()
             .get('https://pitch-black.herokuapp.com/api/adv/map/')
@@ -57,6 +58,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
             setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
             setPlayersInRoom(res.data.players)
             setPersonalItems(res.data.player_items)
+            setCurRoom(res.data.room_type)
         })
         .catch(err => {console.log(err)})
     }
@@ -69,6 +71,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                 setPlayerLocation({x: res.data.grid_x, y: res.data.grid_y,})
                 setPlayersInRoom(res.data.players)
                 setItemsInRoom(res.data.room_items)
+                setCurRoom(res.data.description)
             })
             .catch(err => {console.log(err)})
 
@@ -179,7 +182,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                 <p>Loading...</p>
                             )}
                             <h2>Current Room:</h2>
-                            <p>Pathway</p>
+                            <p>{curRoom}</p>
                         </div>
                     </Grid>
                     <Grid item style={{ minHeight: "100%" }}>
