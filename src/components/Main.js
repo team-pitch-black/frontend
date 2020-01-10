@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import PersonIcon from '@material-ui/icons/Person';
 import ArrowUpwardOutlinedIcon from '@material-ui/icons/ArrowUpwardOutlined';
 import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 import ArrowDownwardOutlinedIcon from '@material-ui/icons/ArrowDownwardOutlined';
@@ -183,11 +188,19 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                             <Grid item>
                                 <div className="ui-item">
                                     <h3>Players in Room</h3>
-                                    <ul>
-                                    {playersInRoom.map((player)=> {
+                                    {/* {playersInRoom.map((player)=> {
                                         return <li key="player">{player}</li>
-                                    })}
-                                    </ul>
+                                    })} */}
+                                    <List dense={true}>
+                                    {playersInRoom.map((player)=> (
+                                        <ListItem>
+                                            <ListItemIcon>
+                                                <PersonIcon color="secondary"/>
+                                            </ListItemIcon>
+                                            <ListItemText primary={player} style={{color: "white"}}/>
+                                        </ListItem>
+                                    ))}
+                                    </List>
                                 </div>
                             </Grid>
                             <Grid item>
