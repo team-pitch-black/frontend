@@ -18,23 +18,15 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Pusher({isOpen, setIsOpen}) {
+export default function Pusher({isOpen, handleClose}) {
   const classes = useStyles();
-
-  const toggleDrawer = open => event => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
-    setIsOpen(open);
-  };
 
   const sideList = () => (
     <div
       className={classes.list}
       role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
+      onClick={handleClose}
+      onKeyDown={handleClose}
     >
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
@@ -58,7 +50,7 @@ export default function Pusher({isOpen, setIsOpen}) {
 
   return (
     <div className="drawer-container">
-      <Drawer open={isOpen} onClose={toggleDrawer('left', false)} ModalProps={{ onBackdropClick: toggleDrawer }}>
+      <Drawer open={isOpen} onClose={handleClose} ModalProps={{ onBackdropClick: handleClose }}>
         {sideList('left')}
       </Drawer>
     </div>

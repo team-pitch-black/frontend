@@ -28,6 +28,10 @@ export default function MenuAppBar({ isLoggedIn, setIsLoggedIn }) {
     const [isOpen, setIsOpen] = useState(false)
     const classes = useStyles();
 
+    const handleClose = () => {
+        setIsOpen(false)
+    }
+
     const handleLogout = e => {
         localStorage.removeItem('token')
         setIsLoggedIn(false)
@@ -59,7 +63,7 @@ export default function MenuAppBar({ isLoggedIn, setIsLoggedIn }) {
                         )}
                 </Toolbar>
             </AppBar>
-            <Pusher isOpen={isOpen} setIsOpen={setIsOpen} />
+            <Pusher isOpen={isOpen} handleClose={handleClose} />
         </div>
     );
 }
