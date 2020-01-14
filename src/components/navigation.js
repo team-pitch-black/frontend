@@ -45,7 +45,7 @@ export default function MenuAppBar({ isLoggedIn, setIsLoggedIn }) {
                         <MenuIcon />
                     </IconButton>
                     <div className={classes.title}>
-                        <Link to="/" style={{ textDecoration: "none", color: "white" }} >
+                        <Link to="/" style={{textDecoration: "none", color: "white"}} >
                             <img src={`${process.env.PUBLIC_URL}/cave-192.png`} width="35" height="35" alt="Pitch Black Logo" />
                         </Link>
                     </div>
@@ -56,10 +56,10 @@ export default function MenuAppBar({ isLoggedIn, setIsLoggedIn }) {
                             </ButtonGroup>
                         </div>
                     ) : (
-                            <ButtonGroup color="secondary" variant="contained">
-                                <Button component={Link} to="/login">Log In</Button>
-                                <Button component={Link} to="/signup">Sign Up</Button>
-                            </ButtonGroup>
+                        <ButtonGroup color="secondary" variant="contained">
+                            <Button component={Link} to="/login">Log In</Button>
+                            <Button component={Link} to="/signup">Sign Up</Button>
+                        </ButtonGroup>
                         )}
                 </Toolbar>
             </AppBar>
