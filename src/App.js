@@ -11,6 +11,7 @@ import Menu from './components/navigation'
 import UserLogin from './components/Login'
 import SignUp from './components/SignUp'
 import Main from './components/Main'
+import Team from './components/Team'
 
 const theme = createMuiTheme({
   palette: {
@@ -106,6 +107,7 @@ function App() {
           <Menu isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
           <Route path="/login" render={(props) => <UserLogin {...props} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/signup" render={(props) => <SignUp {...props} setIsLoggedIn={setIsLoggedIn} setOpen={setOpen} />} />
+          <Route path="/team" component={Team} />
           <Route exact path="/" render={(props) => <Main {...props} map={map} setMap={setMap} playerLocation={playerLocation} setPlayerLocation={setPlayerLocation} isLoggedIn={isLoggedIn} />} />
         </Router>
       </div>
