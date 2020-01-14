@@ -32,7 +32,7 @@ export default function Pusher({isOpen, handleClose}) {
       <Link to="/" style={{ display: "block", textAlign: "center", textDecoration: "none", color: "#000", marginBottom: "10px" }} >
         <img src={`${process.env.PUBLIC_URL}/cave-192.png`} width="75" height="75" alt="Pitch Black Logo" />
         <Typography variant="h4" align="center">Pitch Black</Typography>
-        <Typography variant="p">v1.0</Typography>
+        <p>v1.0</p>
       </Link>
       <List>
         <ListItem button component={Link} to="/team">
