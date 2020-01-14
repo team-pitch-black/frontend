@@ -7,8 +7,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
-// import Avatar from "@material-ui/core/Avatar"
-// import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import IconButton from "@material-ui/core/IconButton";
 import PersonIcon from '@material-ui/icons/Person'
 import PanToolIcon from '@material-ui/icons/PanTool';
@@ -189,6 +187,18 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                         <Grid container direction="column" alignItems="center" spacing={3}>
                             <Grid item>
                                 <div className="ui-item">
+                                    <Grid item style={{ fontSize: "50px" }}>
+                                        <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white' }} fontSize='inherit' />
+                                    </Grid>
+                                    <Grid item style={{ fontSize: "50px" }}>
+                                        <ArrowBackOutlinedIcon fontSize="inherit" onClick={() => moveHandler('left')} style={{ color: 'white' }} />
+                                        <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
+                                        <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
+                                    </Grid>
+                                </div>
+                            </Grid>
+                            <Grid item>
+                                <div className="ui-item">
                                     <h2>{roomName}</h2>
                                     <h3>Players</h3>
                                     <List dense={true}>
@@ -206,11 +216,6 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                         <List dense>
                                         {itemsInRoom.map((item)=> (
                                             <ListItem>
-                                                {/* <ListItemAvatar>
-                                                    <Avatar>
-                                                        <PanToolIcon />
-                                                    </Avatar>
-                                                </ListItemAvatar> */}
                                                 <ListItemText primary={item} style={{color: "white"}} />
                                                 <ListItemSecondaryAction>
                                                     <IconButton edge="end" aria-label="delete">
@@ -258,18 +263,6 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                             <input placeholder='type here' style={{ width: 314, borderRadius: 5 }} />
                                         </>
                                     ) : <p>Work In Progress...</p>}
-                                </div>
-                            </Grid>
-                            <Grid item>
-                                <div className="ui-item">
-                                    <Grid item style={{ fontSize: "50px" }}>
-                                        <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white' }} fontSize='inherit' />
-                                    </Grid>
-                                    <Grid item style={{ fontSize: "50px" }}>
-                                        <ArrowBackOutlinedIcon fontSize="inherit" onClick={() => moveHandler('left')} style={{ color: 'white' }} />
-                                        <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
-                                        <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
-                                    </Grid>
                                 </div>
                             </Grid>
                         </Grid>
