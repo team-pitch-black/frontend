@@ -57,7 +57,6 @@ export default function Pusher({isOpen, handleClose, lavaMode, setLavaMode}) {
           control={
             <Switch
               checked={lavaMode}
-              // onChange={() => console.log("checking")}
               value={lavaMode}
               onClick={() => {
                 localStorage.setItem('lavaMode', !lavaMode)

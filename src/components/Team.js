@@ -12,6 +12,9 @@ import Hidden from '@material-ui/core/Hidden';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import GitHubIcon from '@material-ui/icons/GitHub';
 
+import alfredo from './alfredo.jpg'
+import blaine from './blaine.jpg'
+
 const teamMembers = [
     {
         "name": "Matt Herich",
@@ -25,7 +28,7 @@ const teamMembers = [
         "name": "Blaine Blonquist",
         "role": "React Developer",
         "description": "null",
-        "image": "https://media-exp2.licdn.com/dms/image/C5603AQFSIIGpVlhmYA/profile-displayphoto-shrink_800_800/0?e=1584576000&v=beta&t=O0_bVfrvj0BQly_jA_YBdPf2_kE4Epxlf2Xly6v_DCo",
+        "image": blaine,
         "github": "https://github.com/bquizza5",
         "linkedin": "https://www.linkedin.com/in/blaine-blonquist-0b2b9bb2/",
     },
@@ -49,8 +52,8 @@ const teamMembers = [
         "name": "Alfredo Quintana",
         "role": "Django Developer",
         "description": "null",
-        "image": "null",
-        "github": "https://github.com/mjherich",
+        "image": alfredo,
+        "github": "https://github.com/",
         "linkedin": "https://www.linkedin.com/in/alfredo-quintana-98248a76/",
     }
 ]
@@ -62,6 +65,7 @@ const useStyles = makeStyles(theme => ({
     cardDetails: {
         flex: 1,
         textAlign: 'left',
+        height: '220px',
     },
     cardMedia: {
         width: 160,
@@ -85,10 +89,10 @@ function TeamMember({person}) {
                     <Typography variant="subtitle1" color="textSecondary">
                         {person.role}
                     </Typography>
-                    <Button className={classes.button} variant="contained" size="small" startIcon={<GitHubIcon />}>
+                    <Button className={classes.button} variant="contained" size="small" startIcon={<GitHubIcon />} onClick={() => window.open(person.github)}>
                         GitHub
                     </Button>
-                    <Button className={classes.button} variant="contained" size="small" startIcon={<LinkedInIcon />}>
+                    <Button className={classes.button} variant="contained" size="small" startIcon={<LinkedInIcon />} onClick={() => window.open(person.linkedin)}>
                         LinkedIn
                     </Button>
                 </CardContent>
