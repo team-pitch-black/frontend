@@ -146,21 +146,25 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
         if (e.key === 'ArrowUp') {
             // up arrow
             console.log('up')
+            e.preventDefault()
             moveHandler('up')
         }
         else if (e.key === 'ArrowDown') {
             // down arrow
             console.log('down')
+            e.preventDefault()
             moveHandler('down')
         }
         else if (e.key === 'ArrowLeft') {
             // left arrow
             console.log('left')
+            e.preventDefault()
             moveHandler('left')
         }
         else if (e.key === 'ArrowRight') {
             // right arrow
             console.log('right')
+            e.preventDefault()
             moveHandler('right')
         }
     }
