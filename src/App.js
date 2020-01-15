@@ -7,6 +7,7 @@ import MuiAlert from '@material-ui/lab/Alert'
 
 import './App.css'
 import bg from './8-bit-cave-background-2.jpg'
+import lavabg from './animated-lava-bg.gif'
 import Menu from './components/navigation'
 import UserLogin from './components/Login'
 import SignUp from './components/SignUp'
@@ -40,8 +41,14 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
+let readLava = localStorage.getItem('lavaMode')
+if (readLava && readLava === 'false') {
+  readLava = false
+}
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('token') ? true : false)
+  const [lavaMode, setLavaMode] = useState(readLava || false)
   
   // SnackBar popup
   const [open, setOpen] = useState(false)
@@ -97,18 +104,18 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className="App" style={{ backgroundImage: `url(${bg})`, backgroundPosition: 'center top', backgroundSize: 'cover' }}>
+      <div className={`App${lavaMode ? ' lava-on' : ''}`} style={{ backgroundImage: `url(${lavaMode ? lavabg : bg})`, backgroundPosition: 'center top', backgroundSize: 'cover' }}>
         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
           <Alert onClose={handleClose} severity="success">
               Thanks for signing up, have fun!
           </Alert>
         </Snackbar>
         <Router>
-          <Menu isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+          <Menu isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} lavaMode={lavaMode} setLavaMode={setLavaMode} />
           <Route path="/login" render={(props) => <UserLogin {...props} setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/signup" render={(props) => <SignUp {...props} setIsLoggedIn={setIsLoggedIn} setOpen={setOpen} />} />
           <Route path="/team" component={Team} />
-          <Route exact path="/" render={(props) => <Main {...props} map={map} setMap={setMap} playerLocation={playerLocation} setPlayerLocation={setPlayerLocation} isLoggedIn={isLoggedIn} />} />
+          <Route exact path="/" render={(props) => <Main {...props} map={map} setMap={setMap} playerLocation={playerLocation} setPlayerLocation={setPlayerLocation} isLoggedIn={isLoggedIn} lavaMode={lavaMode} />} />
         </Router>
       </div>
     </ThemeProvider>

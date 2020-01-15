@@ -43,10 +43,9 @@ export default function Dungeon(props) {
 
     useEffect(() => {
         const ctx = canvasRef.current.getContext('2d')
-        ctx.fillStyle = '#000000'
         spriteRef.current.onload = () => {
             // Loop over map
-            for (let c = 0; c < props.map.cols; c++) {
+            for (let c = props.map.cols - 1; c >= 0; c--) {
                 for (let r = 0; r < props.map.rows; r++) {
                     let tile = props.map.getTile(c, r);
                     if (tile !== 0) { // 0 => empty tile
@@ -63,11 +62,17 @@ export default function Dungeon(props) {
                         );
                     }
                 }
-                
             }
-            
         }
-    }, [props.map])
+        if (props.lavaMode) {
+            ctx.fillStyle = '#000000';
+            ctx.shadowColor = '#f85800';
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetX = -8;
+            ctx.shadowOffsetY = 8;
+            ctx.fill();
+        }
+    }, [props.map, props.lavaMode])
     
     return (
         <div className="dungeon-container">

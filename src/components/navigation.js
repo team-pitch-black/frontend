@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function MenuAppBar({ isLoggedIn, setIsLoggedIn }) {
+export default function MenuAppBar({ isLoggedIn, setIsLoggedIn, lavaMode, setLavaMode }) {
     const [isOpen, setIsOpen] = useState(false)
     const classes = useStyles();
 
@@ -63,7 +63,7 @@ export default function MenuAppBar({ isLoggedIn, setIsLoggedIn }) {
                         )}
                 </Toolbar>
             </AppBar>
-            <Pusher isOpen={isOpen} handleClose={handleClose} />
+            <Pusher isOpen={isOpen} handleClose={handleClose} lavaMode={lavaMode} setLavaMode={setLavaMode} />
         </div>
     );
 }

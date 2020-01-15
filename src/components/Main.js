@@ -21,7 +21,7 @@ import Loader from './Loader'
 import { axiosWithAuth } from '../axiosWithAuth'
 
 
-export default function Main({ map, setMap, playerLocation, setPlayerLocation, isLoggedIn }) {
+export default function Main({ map, setMap, playerLocation, setPlayerLocation, isLoggedIn, lavaMode }) {
     const [roomName, setRoomName] = useState('')
     const [playersInRoom, setPlayersInRoom] = useState([])
     const [itemsInRoom, setItemsInRoom] = useState([])
@@ -174,7 +174,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                     <Grid item>
                         <div className="ui-item" style={{minWidth: "750px", minHeight: "750px"}}>
                             {isLoaded ? (
-                                <Dungeon map={map} setIsLoaded={setIsLoaded} playerLocation={playerLocation} />
+                                <Dungeon map={map} setIsLoaded={setIsLoaded} playerLocation={playerLocation} lavaMode={lavaMode} />
                             ) : (
                                 <div style={{height: "750px", display: "flex", flexDirection: "column", justifyContent: "center"}}>
                                     <Typography variant="h5" style={{color: "white", marginBottom: "15px"}}>Loading...</Typography>
