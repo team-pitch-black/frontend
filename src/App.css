@@ -48,3 +48,15 @@
 .ui-item p {
   color: white;
 }
+
+/* Lava styles */
+.lava-on .ui-item {
+  background-color: rgba(29, 32, 37, 0.75);
+}
+.lava-on h1,
+.lava-on h4,
+.lava-on h5 {
+  color: black;
+  font-weight: bold;
+  text-shadow: 0px 0px 5px #ff1003, 0px 0px 10px #ff1003, 0px 0px 25px #ff1003;
+}

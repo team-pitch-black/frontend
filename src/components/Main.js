@@ -7,8 +7,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
-// import Avatar from "@material-ui/core/Avatar"
-// import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import IconButton from "@material-ui/core/IconButton";
 import PersonIcon from '@material-ui/icons/Person'
 import PanToolIcon from '@material-ui/icons/PanTool';
@@ -23,7 +21,7 @@ import Loader from './Loader'
 import { axiosWithAuth } from '../axiosWithAuth'
 
 
-export default function Main({ map, setMap, playerLocation, setPlayerLocation, isLoggedIn }) {
+export default function Main({ map, setMap, playerLocation, setPlayerLocation, isLoggedIn, lavaMode }) {
     const [roomName, setRoomName] = useState('')
     const [playersInRoom, setPlayersInRoom] = useState([])
     const [itemsInRoom, setItemsInRoom] = useState([])
@@ -176,7 +174,7 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                     <Grid item>
                         <div className="ui-item" style={{minWidth: "750px", minHeight: "750px"}}>
                             {isLoaded ? (
-                                <Dungeon map={map} setIsLoaded={setIsLoaded} playerLocation={playerLocation} />
+                                <Dungeon map={map} setIsLoaded={setIsLoaded} playerLocation={playerLocation} lavaMode={lavaMode} />
                             ) : (
                                 <div style={{height: "750px", display: "flex", flexDirection: "column", justifyContent: "center"}}>
                                     <Typography variant="h5" style={{color: "white", marginBottom: "15px"}}>Loading...</Typography>
@@ -187,6 +185,18 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                     </Grid>
                     <Grid item style={{ minHeight: "100%" }}>
                         <Grid container direction="column" alignItems="center" spacing={3}>
+                            <Grid item>
+                                <div className="ui-item">
+                                    <Grid item style={{ fontSize: "50px" }}>
+                                        <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white' }} fontSize='inherit' />
+                                    </Grid>
+                                    <Grid item style={{ fontSize: "50px" }}>
+                                        <ArrowBackOutlinedIcon fontSize="inherit" onClick={() => moveHandler('left')} style={{ color: 'white' }} />
+                                        <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
+                                        <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
+                                    </Grid>
+                                </div>
+                            </Grid>
                             <Grid item>
                                 <div className="ui-item">
                                     <h2>{roomName}</h2>
@@ -206,11 +216,6 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                         <List dense>
                                         {itemsInRoom.map((item)=> (
                                             <ListItem>
-                                                {/* <ListItemAvatar>
-                                                    <Avatar>
-                                                        <PanToolIcon />
-                                                    </Avatar>
-                                                </ListItemAvatar> */}
                                                 <ListItemText primary={item} style={{color: "white"}} />
                                                 <ListItemSecondaryAction>
                                                     <IconButton edge="end" aria-label="delete">
@@ -258,18 +263,6 @@ export default function Main({ map, setMap, playerLocation, setPlayerLocation, i
                                             <input placeholder='type here' style={{ width: 314, borderRadius: 5 }} />
                                         </>
                                     ) : <p>Work In Progress...</p>}
-                                </div>
-                            </Grid>
-                            <Grid item>
-                                <div className="ui-item">
-                                    <Grid item style={{ fontSize: "50px" }}>
-                                        <ArrowUpwardOutlinedIcon onClick={() => moveHandler('up')} style={{ color: 'white' }} fontSize='inherit' />
-                                    </Grid>
-                                    <Grid item style={{ fontSize: "50px" }}>
-                                        <ArrowBackOutlinedIcon fontSize="inherit" onClick={() => moveHandler('left')} style={{ color: 'white' }} />
-                                        <ArrowDownwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('down')} style={{ color: 'white' }} />
-                                        <ArrowForwardOutlinedIcon fontSize="inherit" onClick={() => moveHandler('right')} style={{ color: 'white' }} />
-                                    </Grid>
                                 </div>
                             </Grid>
                         </Grid>

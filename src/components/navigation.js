@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+
+import Pusher from './Pusher'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,8 +24,13 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function MenuAppBar({isLoggedIn, setIsLoggedIn}) {
+export default function MenuAppBar({ isLoggedIn, setIsLoggedIn, lavaMode, setLavaMode }) {
+    const [isOpen, setIsOpen] = useState(false)
     const classes = useStyles();
+
+    const handleClose = () => {
+        setIsOpen(false)
+    }
 
     const handleLogout = e => {
         localStorage.removeItem('token')
@@ -35,7 +41,7 @@ export default function MenuAppBar({isLoggedIn, setIsLoggedIn}) {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={e => setIsOpen(true)} >
                         <MenuIcon />
                     </IconButton>
                     <div className={classes.title}>
@@ -54,9 +60,10 @@ export default function MenuAppBar({isLoggedIn, setIsLoggedIn}) {
                             <Button component={Link} to="/login">Log In</Button>
                             <Button component={Link} to="/signup">Sign Up</Button>
                         </ButtonGroup>
-                    )}
+                        )}
                 </Toolbar>
             </AppBar>
+            <Pusher isOpen={isOpen} handleClose={handleClose} lavaMode={lavaMode} setLavaMode={setLavaMode} />
         </div>
     );
 }
