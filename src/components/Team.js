@@ -53,7 +53,7 @@ const teamMembers = [
         "role": "Django Developer",
         "description": "null",
         "image": alfredo,
-        "github": "https://github.com/",
+        "github": "https://github.com/alqu7095/",
         "linkedin": "https://www.linkedin.com/in/alfredo-quintana-98248a76/",
     }
 ]
